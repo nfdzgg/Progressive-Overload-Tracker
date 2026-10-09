@@ -1,0 +1,57 @@
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* A selectable card: canvas with a hairline; the chosen one lifts to surface-3 (like a chip). */
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-height: var(--tap-target);
+  padding: var(--space-md);
+  border: var(--border-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    background-color var(--motion-duration) var(--motion-ease),
+    border-color var(--motion-duration) var(--motion-ease);
+}
+
+.selected {
+  background: var(--color-surface-3);
+  border: var(--border-hairline-strong);
+}
+
+.option:has(input:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.text {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  min-width: 0;
+}
+
+.check {
+  display: inline-flex;
+  flex: none;
+  width: var(--icon-card);
+  height: var(--icon-card);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+}
