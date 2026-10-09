@@ -1,0 +1,34 @@
+.shell {
+  min-height: 100dvh;
+}
+
+.bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.bottom > * {
+  pointer-events: auto;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.overlay {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 calc(var(--space-md) + var(--safe-right)) var(--space-xs)
+    calc(var(--space-md) + var(--safe-left));
+}
+
+.overlay:empty {
+  display: none;
+}

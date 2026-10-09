@@ -15,7 +15,7 @@ Updated at every commit to `main`.
 - [x] 3. `ui/`: shared components with render tests, `/#/kitchen-sink` (checked visually at 390×844)
 - [x] 4. `domain/`: section 4 types, section 5 rules, test-first (98 named tests: cycle, projection, targets, e1RM, PRs, stalled, weekly, units, dates, format)
 - [x] 5. `data/`: Dexie schema (v1), repositories, live-query hooks, seed template (tested row by row against section 7), backup serialize/parse with round-trip and export→wipe→import tests, routine merge, CSV, migration framework
-- [ ] 6. `app/`: shell, four tabs, safe areas, PWA, deploy — live on GitHub Pages
+- [ ] 6. `app/`: shell, four tabs routed to placeholder screens, first-run gate, safe areas, keyboard-aware bottom bar, PWA manifest + icons + service worker (updates apply on next launch), bundled timer sound, e2e fixtures and test hooks — deploy pending
 - [ ] Foundation freeze
 
 ### Phase 2 — Vertical slices
@@ -68,6 +68,9 @@ Updated at every commit to `main`.
 16. **Routine import** matches exercises by name (case-insensitive, trimmed); a match takes the file's settings (type, muscle, sets, reps, rest, per-set weight) and is unarchived, and its variants are matched by name the same way (unmatched variants are added; existing ones not in the file are kept). Workouts and cycle are replaced and the cycle starts at its first item today.
 17. **Routine export** contains active exercises with their active variants (including notes), workouts, and cycle items. No sessions, entries, or settings.
 18. **Full backup includes settings** (unit, timer preferences, last export date), so a restore is identical.
+19. **Keyboard rule.** The tab bar and rest-timer slot hide only when a text field has focus *and* the visual viewport has shrunk below 75% of its tallest height (a real on-screen keyboard on iOS or Android). Desktop windows and emulated browsers never hide them.
+20. **Placeholder screens live in `features/<name>/`** with a fixed export contract (`TodayScreen`, `CalendarScreen`, `ProgressScreen`, `SettingsScreen`, `FirstRunScreen` + `DataSection`, `ShellOverlay`), so slices replace their own folder without touching `app/`.
+21. **E2E seeding.** With `localStorage["pot:test-hooks"] = "1"` the app exposes the `data` and `domain` modules on `window.__pot`; `e2e/fixtures.ts` uses it to skip first run and seed state. The hook is inert for normal users.
 
 ## Open questions
 _None._
