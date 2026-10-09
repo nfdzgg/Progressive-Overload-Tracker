@@ -37,7 +37,25 @@ Updated at every commit to `main`.
   - Reviewed at 390×844 (plus 320px and 1280px): first run; Today (workout, logged card with PR badge, rest timer, notes sheet, more sheet, swap picker, deload badge, finish confirmation, finished summary, rest day, waiting for restart, empty cycle); Calendar (week strip, month, past-day sheet, entry editor, future-day sheet); Progress (with data and empty); Settings (home, cycle, workout, exercises, exercise editor, new exercise, data section). Checked against DESIGN.md: surface ladder and hairlines, lavender only on the primary action / focus / active tab / primary chart series, green only for PR / completed / add weight, red only for destructive actions, selection by surface lift, sheets (16px top corners, drag handle, 60% scrim), rest timer (surface-2, mono countdown, 2px lavender line), calendar cells, chart colors, 480px column on wide windows and 960px 2-up Progress. No horizontal scroll at 320–1280px. No changes needed.
   - `design.md lint`: 0 errors, 7 warnings, 1 info. Warnings are about DESIGN.md itself and were left as written (DESIGN.md decides visuals): white on `primary-hover` (#828fff) is 2.87:1 — hover only exists on desktop pointers; six colors (`ink-tertiary`, `surface-4`, `hairline`, `hairline-strong`, `hairline-tertiary`, `semantic-overlay`) are reported as "orphaned" because the component tokens don't reference them, but the DESIGN.md prose does and the app uses them (borders, placeholders, scrim).
 - [x] 4. Accessibility pass (`e2e/a11y.spec.ts`): axe-core on first run, Today (cards, done card + rest timer, notes sheet, more sheet, finish dialog), Calendar (month, day sheet, entry editor), Progress, and every Settings page — labels on all inputs and icon buttons, names on buttons/links, valid ARIA, landmarks; every visible interactive element ≥44px tall (chips via their 44px hit area); keyboard focus moves top to bottom with a visible focus ring; with reduced motion the sheet and card animations are 0s
-- [ ] 5. README
+- [x] 5. README: what the app is, installing on iPhone, Android, and desktop, backing up, how a friend starts with their own data, developing and deploying
+
+## Acceptance criteria (SPEC section 10)
+| # | Criterion | Status | Evidence |
+|---|---|---|---|
+| 1 | Live on GitHub Pages, installs to an iPhone home screen and as a desktop app, opens standalone | ✅ (real-device install not verifiable from the build sandbox) | https://nfdzgg.github.io/Progressive-Overload-Tracker/ — every Deploy run ends with a Playwright smoke test against the live URL (build id, manifest `display: standalone`, service worker, first run → Today → timer → Calendar → Progress → Settings). `e2e/shell.spec.ts` checks manifest, icons (incl. `apple-touch-icon`, maskable), theme/background color; `e2e/offline.spec.ts` asks Chromium (DevTools protocol) for installability errors and gets none. |
+| 2 | Works offline after first load | ✅ | `e2e/offline.spec.ts`: network disabled → app loads, fonts and timer sound served, full session logged, data survives an offline reload |
+| 3 | First run offers template or blank; template matches section 7 exactly | ✅ | `src/data/seed.test.ts` (row by row), `e2e/backup.spec.ts`, `e2e/journey.spec.ts` |
+| 4 | Full workout with one weight and reps per set per exercise; drafts survive closing the app | ✅ | `e2e/today.spec.ts` (full Push session, drafts survive reload), `e2e/journey.spec.ts` |
+| 5 | Variant history separate; chips change reference, target, prefill | ✅ | `src/domain/targets.test.ts`, `e2e/today.spec.ts` |
+| 6 | Targets, PRs, e1RM, stalled, weekly numbers match section 5, proven by unit tests | ✅ | `src/domain/*.test.ts` (targets, prs, e1rm, stalled, weekly, units, cycle, projection) |
+| 7 | Cycle per 5.1: missed days, rest consumption, both restart options | ✅ | `src/domain/cycle.test.ts`, `src/data/repos.test.ts`, `e2e/today.spec.ts`, `e2e/settings.spec.ts` |
+| 8 | Rest timer uses per-exercise durations and stays correct after backgrounding | ✅ | `src/features/session-extras/restTimer.test.ts`, `e2e/session-extras.spec.ts` (clock fast-forward, reload) |
+| 9 | Everything in 6.6 editable; edits take effect on Today without a reload | ✅ | `e2e/settings.spec.ts`, `e2e/journey.spec.ts` (sets edited in Settings appear on Today in the same document) |
+| 10 | Calendar and Progress show real data, with sensible empty states | ✅ | `e2e/calendar.spec.ts`, `e2e/progress.spec.ts`, journey |
+| 11 | Backup export → wipe → import restores identical data; routine-only export has no logs | ✅ | `src/data/repos.test.ts`, `e2e/backup.spec.ts`, `e2e/journey.spec.ts` |
+| 12 | Today shows nothing beyond what 6.2 lists | ✅ | Design pass (Phase 3.3) and slice review: cards, Finish workout, and the 5.1 states only; notes/more behind icons; timer bar is shell chrome |
+| 13 | Lint, typecheck, all unit tests, all Playwright tests pass in CI | ✅ | Deploy workflow on `main` (see latest run) |
+| 14 | PROGRESS.md shows every item complete, with deviations explained | ✅ | This file |
 
 ## Branches
 - `main` — integration branch, deployed to GitHub Pages.

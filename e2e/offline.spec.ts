@@ -61,3 +61,26 @@ test('works offline after the first load @desktop', async ({ app, page, context 
   const data = await app.call<{ entries: Array<{ status: string }> }>('readAllData', today);
   expect(data.entries.filter((e) => e.status === 'logged')).toHaveLength(6);
 });
+
+test('Chromium reports the app as installable @desktop', async ({ app, page, context }) => {
+  await app.open();
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+  });
+  await page.reload();
+  await expect
+    .poll(() => page.evaluate(() => navigator.serviceWorker.controller !== null))
+    .toBe(true);
+  const cdp = await context.newCDPSession(page);
+  const manifest = (await cdp.send('Page.getAppManifest')) as {
+    errors: Array<{ message: string }>;
+  };
+  expect(manifest.errors).toEqual([]);
+  const { installabilityErrors } = (await cdp.send('Page.getInstallabilityErrors')) as {
+    installabilityErrors: Array<{ errorId: string }>;
+  };
+  // Playwright contexts are incognito profiles; that is the only acceptable reason.
+  expect(installabilityErrors.map((e) => e.errorId).filter((id) => id !== 'in-incognito')).toEqual(
+    [],
+  );
+});
