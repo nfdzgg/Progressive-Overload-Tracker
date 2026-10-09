@@ -70,6 +70,14 @@ jobs:
         env:
           LIVE_URL: ${{ needs.deploy.outputs.page_url }}
           EXPECTED_BUILD: ${{ github.sha }}
+      - name: Install the live app as a desktop app and launch it standalone
+        run: |
+          sudo mkdir -p /etc/chromium/policies/managed
+          echo "{\"WebAppInstallForceList\":[{\"url\":\"$LIVE_URL\",\"default_launch_container\":\"window\"}]}" \
+            | sudo tee /etc/chromium/policies/managed/pot.json
+          xvfb-run -a node scripts/verify-desktop-install.mjs
+        env:
+          LIVE_URL: ${{ needs.deploy.outputs.page_url }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
