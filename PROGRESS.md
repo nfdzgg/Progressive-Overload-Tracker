@@ -115,6 +115,7 @@ Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 31. **Stacked overlays (orchestrator fix in `ui/`).** S4 reported that Escape on a confirmation above a sheet closed both. Modals now keep a stack and only the topmost handles Escape and Tab (test in `ui/Sheet.test.tsx`).
 32. **Rep placeholders.** DESIGN.md says a number input's placeholder is its label ("Set 1"); SPEC 5.3 says rep inputs show the reference reps as placeholders. Behavior follows SPEC: reference reps when there is a reference, the label otherwise; the accessible name is always the label.
 33. **Test robustness after a red CI run (Deploy #17).** One Settings unit test clicked "Delete exercise" while the button was still disabled (it waits for the history check), and under a stress run one Session-extras test read the swap picker before its live query loaded. Both now wait for the precondition (same assertions). The Vitest per-test timeout is 15 s instead of 5 s for slow CI runners (the longest component test takes about 1 s normally). The full unit suite passed 3× at 16 workers on 4 cores afterwards.
+34. **CI job timeouts.** Deploy run #20 (a PROGRESS-only commit) hung for over 7 minutes in the runner's `playwright install --with-deps chromium webkit` step (apt), before any test ran; it was cancelled. Every CI/deploy job now has `timeout-minutes` (10–20) so an infrastructure hang fails fast instead of blocking the Pages queue.
 
 ## Open questions
 _None._
