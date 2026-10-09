@@ -6,6 +6,7 @@ import {
   resolveCycleOnOpen,
   restartToday,
   scheduleRestartOnMonday,
+  setCycleDay,
   setCycleItems,
   startNextWorkout,
   startNow,
@@ -150,6 +151,47 @@ describe('cycle: restart', () => {
   it('"Start now" cancels the wait and restarts immediately', () => {
     const next = startNow(state({ pointer: 4, restartOn: '2026-03-09' }), '2026-03-05');
     expect(next).toMatchObject({ pointer: 0, pointerSince: '2026-03-05', restartOn: null });
+  });
+});
+
+describe('cycle: choosing which day of the cycle is today (joining mid-cycle)', () => {
+  const friday = '2026-03-06';
+
+  it('puts the pointer on the chosen item, available today', () => {
+    const next = setCycleDay(state({ pointer: 0, pointerSince: '2026-03-02' }), 1, friday);
+    expect(next.pointer).toBe(1);
+    expect(next.pointerSince).toBe(friday);
+    expect(getTodayView(next, [], friday)).toEqual({ kind: 'workout', workoutId: 'pull' });
+  });
+
+  it('continues in order from the chosen item after finishing', () => {
+    const next = advanceAfterFinish(setCycleDay(state(), 1, friday), friday);
+    expect(currentItem(next)).toEqual(W('legs'));
+    expect(next.pointerSince).toBe('2026-03-07');
+  });
+
+  it("makes the chosen workout available again after today's workout was finished", () => {
+    const finished = state({ pointer: 1, pointerSince: '2026-03-07' });
+    const next = setCycleDay(finished, 4, friday);
+    expect(getTodayView(next, [], friday)).toEqual({ kind: 'workout', workoutId: 'pull' });
+  });
+
+  it('cancels a scheduled restart', () => {
+    const next = setCycleDay(state({ restartOn: '2026-03-09' }), 2, friday);
+    expect(next.restartOn).toBeNull();
+    expect(getTodayView(next, [], friday)).toEqual({ kind: 'workout', workoutId: 'legs' });
+  });
+
+  it('choosing a rest item makes today a rest day that is consumed tomorrow', () => {
+    const next = setCycleDay(state(), 6, friday);
+    expect(getTodayView(next, [], friday)).toEqual({ kind: 'rest' });
+    expect(currentItem(resolveCycleOnOpen(next, '2026-03-07'))).toEqual(W('push'));
+  });
+
+  it('ignores an index outside the cycle', () => {
+    const s = state({ pointer: 3 });
+    expect(setCycleDay(s, 7, friday)).toBe(s);
+    expect(setCycleDay(s, -1, friday)).toBe(s);
   });
 });
 

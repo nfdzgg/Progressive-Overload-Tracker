@@ -146,6 +146,7 @@ All of this lives in pure functions under `src/domain/` with full unit-test cove
 - One workout per calendar day by default. After finishing, Today shows a compact summary of the finished session, with a "Start next workout" action for anyone who wants a second session.
 - **Restart cycle** (Settings): "Restart today" sets `pointer = 0` now. "Restart on Monday" sets `restartOn` to the coming Monday; until then Today shows a rest state with "Start now", which cancels the wait and restarts immediately. On or after `restartOn`, set `pointer = 0` and clear it.
 - An in-progress session from an earlier date is resumed, not discarded.
+- **Day in cycle** (Settings; added after launch at the owner's request, for someone who starts using the app partway through their cycle): choosing a cycle item sets `pointer` to it and `pointerSince` to today, and clears `restartOn`. Today shows it now, and the cycle continues in order from there. A workout already started for a different workout is discarded if nothing in it is logged yet; if it has logged sets, the user is asked to finish it first.
 
 ### 5.2 Projection (for the calendar)
 
@@ -241,6 +242,7 @@ Empty states explain what will appear once there is data; no fake numbers.
   - Cycle: reorder, add, and remove workout and rest items.
   - Workouts: create, rename, delete; add, remove, and reorder exercises.
   - Exercises (library): create, rename, archive; edit type, muscle group, sets, rep range, rest time, per-set weight; add, rename, reorder, and archive variants; choose the default variant.
+  - Day in cycle: which item of the cycle is today (5.1).
   - Restart cycle: today or on Monday (5.1), with confirmation.
 - **Preferences:** unit; rest timer on/off; timer sound on/off.
 - **Data**

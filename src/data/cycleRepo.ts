@@ -3,6 +3,7 @@ import {
   resolveCycleOnOpen,
   restartToday,
   scheduleRestartOnMonday,
+  setCycleDay,
   setCycleItems,
   startNextWorkout,
   startNow,
@@ -52,6 +53,35 @@ export function saveCycleItems(
     return pointer !== undefined && pointer >= 0 && pointer < items.length
       ? { ...next, pointer }
       : next;
+  });
+}
+
+/**
+ * Settings "Day in cycle": today becomes the cycle item at `index`. A workout
+ * already started for a different workout is discarded when nothing in it is
+ * logged yet (its unlogged numbers belong to a day the user says is not
+ * today); while it has logged sets this refuses, so no log is ever lost.
+ */
+export async function setCycleDayToday(index: number, today: ISODate): Promise<CycleState> {
+  return db.transaction('rw', [db.cycle, db.sessions, db.entries], async () => {
+    const current = await getCycle(today);
+    const chosen = current.items[index];
+    const started = await db.sessions.where('status').equals('inProgress').toArray();
+    for (const session of started) {
+      if (chosen?.kind === 'workout' && chosen.workoutId === session.workoutId) continue;
+      const entries = await db.entries.where('sessionId').equals(session.id).toArray();
+      if (entries.some((e) => e.status === 'logged')) {
+        throw new Error(`Finish the ${session.workoutName} workout in progress first`);
+      }
+    }
+    for (const session of started) {
+      if (chosen?.kind === 'workout' && chosen.workoutId === session.workoutId) continue;
+      await db.entries.where('sessionId').equals(session.id).delete();
+      await db.sessions.delete(session.id);
+    }
+    const next = setCycleDay(current, index, today);
+    if (next !== current) await saveCycle(next);
+    return next;
   });
 }
 

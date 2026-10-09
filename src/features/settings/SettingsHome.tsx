@@ -4,6 +4,7 @@ import { Card, ListGroup, ListItem, ListRow, Screen, SectionLabel, Stack } from 
 import { DataSection } from '../backup';
 import { AboutSection } from './AboutSection';
 import { cycleSummary } from './cycleEdit';
+import { CycleDayRow } from './CycleDay';
 import { useSettingsNav } from './nav';
 import { PreferencesSection } from './PreferencesSection';
 import { RestartCycle } from './RestartCycle';
@@ -44,6 +45,7 @@ function RoutineSection() {
                 onClick={() => nav.open('/settings/cycle')}
               />
             </ListItem>
+            <CycleDayRow />
             <ListItem>
               <ListRow
                 title="Workouts"

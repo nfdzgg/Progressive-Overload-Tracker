@@ -25,6 +25,7 @@ import {
   restartCycleOnMonday,
   saveCycleItems,
   saveDraft,
+  setCycleDayToday,
   setDefaultVariant,
   setSessionDeload,
   skipSlot,
@@ -231,6 +232,47 @@ describe('cycle actions', () => {
       pointer: 0,
       restartOn: null,
     });
+  });
+});
+
+describe('Day in cycle (joining mid-cycle)', () => {
+  const FRIDAY = '2026-03-06';
+
+  it('makes the chosen item today', async () => {
+    await pplSetup();
+    expect(await setCycleDayToday(1, FRIDAY)).toMatchObject({ pointer: 1, pointerSince: FRIDAY });
+    expect((await getCycle(FRIDAY)).pointer).toBe(1);
+  });
+
+  it('discards a started workout with only unlogged numbers when another day is chosen', async () => {
+    const { push, byName } = await pplSetup();
+    const press = byName('Chest press');
+    const session = await ensureSession(push.id, FRIDAY);
+    await saveDraft(input(session.id, press.id, press.defaultVariantId, [10]));
+    await setCycleDayToday(1, FRIDAY);
+    expect(await db.sessions.count()).toBe(0);
+    expect(await db.entries.count()).toBe(0);
+  });
+
+  it('keeps a started workout when its own day is chosen', async () => {
+    const { push, byName } = await pplSetup();
+    const press = byName('Chest press');
+    const session = await ensureSession(push.id, FRIDAY);
+    await saveDraft(input(session.id, press.id, press.defaultVariantId, [10]));
+    await setCycleDayToday(3, FRIDAY); // the second Push in the cycle
+    expect(await db.sessions.get(session.id)).toBeDefined();
+    expect(await db.entries.count()).toBe(1);
+    expect((await getCycle(FRIDAY)).pointer).toBe(3);
+  });
+
+  it('refuses while the started workout has logged sets, and changes nothing', async () => {
+    const { push, byName } = await pplSetup();
+    const press = byName('Chest press');
+    const session = await ensureSession(push.id, FRIDAY);
+    await logEntry(input(session.id, press.id, press.defaultVariantId, [10]), FRIDAY);
+    await expect(setCycleDayToday(1, FRIDAY)).rejects.toThrow(/Finish/);
+    expect((await getCycle(FRIDAY)).pointer).toBe(0);
+    expect(await db.entries.count()).toBe(1);
   });
 });
 

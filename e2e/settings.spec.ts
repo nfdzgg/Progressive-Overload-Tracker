@@ -240,6 +240,32 @@ test('restart cycle today and on Monday, each with a confirmation', async ({ app
   await expect(page.getByText(`Restarts from Push on ${mondayLabel}.`)).toBeVisible();
 });
 
+test('Day in cycle: someone partway through their cycle makes today Pull', async ({
+  app,
+  page,
+}) => {
+  await expect(settingsRow(page, 'Day in cycle')).toContainText('Today: Push, day 1 of 7');
+  await settingsRow(page, 'Day in cycle').click();
+  const sheet = page.getByRole('dialog', { name: 'Day in cycle' });
+  await expect(sheet.getByRole('button', { name: 'Day 1, Push, today' })).toBeVisible();
+  await sheet.getByRole('button', { name: 'Day 2, Pull' }).click();
+  await expect(sheet).toBeHidden();
+  await expect(settingsRow(page, 'Day in cycle')).toContainText('Today: Pull, day 2 of 7');
+
+  // Today shows Pull now, and it is stored: a reload keeps it.
+  await app.tab('Today');
+  await expect(page.getByRole('heading', { level: 1, name: 'Pull' })).toBeVisible();
+  await expect(page.getByRole('article', { name: 'Lat pulldown' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1, name: 'Pull' })).toBeVisible();
+
+  // The calendar continues in order from Pull.
+  await app.tab('Calendar');
+  const week = page.getByRole('region', { name: 'This week' });
+  await expect(week.getByRole('button', { name: /, today, Pull, planned$/ })).toBeVisible();
+  expect((await data(app)).cycle.pointer).toBe(1);
+});
+
 test('an exercise with history is archived; one without is deleted', async ({ app, page }) => {
   const today = await app.today();
   const before = await data(app);

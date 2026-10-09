@@ -56,6 +56,16 @@ export function scheduleRestartOnMonday(state: CycleState, today: ISODate): Cycl
   return { ...state, restartOn: nextMonday(today) };
 }
 
+/**
+ * Settings "Day in cycle": today becomes the item at `index` (for someone who
+ * joins partway through their cycle). The cycle continues in order from it,
+ * and a scheduled restart is cancelled.
+ */
+export function setCycleDay(state: CycleState, index: number, today: ISODate): CycleState {
+  if (!Number.isInteger(index) || index < 0 || index >= state.items.length) return state;
+  return { ...state, pointer: index, pointerSince: today, restartOn: null };
+}
+
 /** Waiting state "Start now": cancels the wait and restarts immediately. */
 export function startNow(state: CycleState, today: ISODate): CycleState {
   return restartToday(state, today);

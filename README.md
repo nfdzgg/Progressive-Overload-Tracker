@@ -7,7 +7,7 @@ A phone-first gym logger that makes progressive overload effortless: open it, se
 - **Today** shows one card per exercise in today's workout, with last time's numbers for the variant you pick and a target (beat it by one rep, or add weight). Type one weight and the reps per set, tap **Log**.
 - **Calendar** shows what you did and what's coming up in your cycle; past days can be edited or filled in after the fact.
 - **Progress** shows this week, consistency, sets per muscle group, recent PRs, stalled lifts, a chart per exercise and variant, and weekly volume.
-- **Settings** is where everything is configured: exercises and their variants, workouts, the cycle, units, the rest timer, and backups.
+- **Settings** is where everything is configured: exercises and their variants, workouts, the cycle (including which day of it today is), units, the rest timer, and backups.
 
 Everything stays on your device. There are no accounts, no server, and no analytics. After the first visit the app works fully offline.
 
@@ -55,6 +55,8 @@ Moving to a new phone: export a full backup on the old one, open the app on the 
 ## A friend starting with their own data
 
 Everyone's data is separate: it lives on their own device. Share the link; on first run they choose either the **Push / Pull / Legs template** (a ready-made routine they can edit) or **Start blank**, and lb or kg. Everything (exercises, variants, sets, rep ranges, rest times, workouts, the cycle) is editable in Settings.
+
+Already partway through your cycle when you start (say it's Friday and today should be Pull)? Settings → Routine → **Day in cycle**, and pick today's day. Today shows it right away and the cycle continues in order from there.
 
 To give a friend your routine without your logs: Settings → Data → **Export routine only**, send them the file, and they use **Import routine** after their first run.
 
