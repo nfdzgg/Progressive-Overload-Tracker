@@ -22,7 +22,7 @@ Updated at every commit to `main`.
 | Slice | Branch | Status |
 |---|---|---|
 | S1 Today | `slice/today` (worktree `/home/user/wt-today`) | in progress |
-| S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | in progress |
+| S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
 | S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | in progress |
 | Wave 1 deploy + live smoke test | — | not started |
 | S4 Calendar | `slice/calendar` | not started |
@@ -74,6 +74,9 @@ Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 19. **Keyboard rule.** The tab bar and rest-timer slot hide only when a text field has focus *and* the visual viewport has shrunk below 75% of its tallest height (a real on-screen keyboard on iOS or Android). Desktop windows and emulated browsers never hide them.
 20. **Placeholder screens live in `features/<name>/`** with a fixed export contract (`TodayScreen`, `CalendarScreen`, `ProgressScreen`, `SettingsScreen`, `FirstRunScreen` + `DataSection`, `ShellOverlay`), so slices replace their own folder without touching `app/`.
 21. **E2E seeding.** With `localStorage["pot:test-hooks"] = "1"` the app exposes the `data` and `domain` modules on `window.__pot`; `e2e/fixtures.ts` uses it to skip first run and seed state. The hook is inert for normal users.
+22. **Settings (S2) inputs.** Rest time is a select in 30-second steps (0:30–5:00; an off-step value is kept in the list); sets is a 1–10 select; rep min/max are validated whole numbers (min ≤ max, invalid style per DESIGN). Exercise edits save as you go (an invalid field is not saved until fixed); creating uses an explicit "Create exercise" button.
+23. **Settings (S2) confirmations.** Removing a cycle item or removing an exercise from a workout does not confirm (nothing is lost, easy to re-add); deleting a workout, archiving/deleting an exercise or variant, and both restarts always confirm. Reordering uses up/down buttons, not drag and drop; new cycle items go at the end.
+24. **Unique names.** Exercise names are unique (case-insensitive) because routine import matches by name; variant names are unique within an exercise. Changing the type of an existing exercise keeps its rep range and rest (defaults fill in only on create, per 4.1).
 
 ## Open questions
 _None._
