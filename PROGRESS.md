@@ -28,10 +28,10 @@ Updated at every commit to `main`.
 | S4 Calendar | `slice/calendar` | **merged** (`d4f9b23`); reviewed against 5.2, 6.4; full suite green after merge (530 unit, 46 e2e); checked at 390×844 and 320px |
 | S5 Progress | `slice/progress` | **merged** (`bd71c17`); reviewed against 5.4–5.7, 6.5; all numbers from domain functions; full suite green after merge (472 unit, 41 e2e); checked at 390×844 and 1280px |
 | S6 Session extras | `slice/session-extras` | **merged** (`734072e`); reviewed against 6.3 and the notes/more-menu parts of 6.2; consumes only Today's extension API; full suite green after merge (441 unit, 37 e2e); checked at 390×844 |
-| Wave 2 deploy + live smoke test | — | in progress (live smoke now also starts the rest timer and opens Calendar and Progress) |
+| Wave 2 deploy + live smoke test | — | **done** — Deploy run #11 (`78697b8`): CI, deploy, and live smoke (first run → Today Push cards → rest timer starts → Calendar → Progress → Settings Routine + Data) all green |
 
 ### Phase 3 — Integration (sequential)
-- [ ] 1. Full-product Playwright journey
+- [x] 1. Full-product Playwright journey (`e2e/journey.spec.ts`, runs at 390×844 and 1280×800): first run with the template → a past session logged from the calendar → full Push session logged on Today → PR badge and rest timer → session auto-finishes → calendar shows it finished and the next day projected as Pull → Progress shows the session, 12 hard sets, and the PR → next day Today shows Pull → an exercise edited in Settings shows on Today without a reload → export, wipe, import → identical data
 - [ ] 2. Offline check
 - [ ] 3. Design pass + `npx @google/design.md lint DESIGN.md`
 - [ ] 4. Accessibility pass
