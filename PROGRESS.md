@@ -24,10 +24,10 @@ Updated at every commit to `main`.
 | S1 Today | `slice/today` (worktree `/home/user/wt-today`) | **merged** (`6757076`); reviewed against 5.1, 5.3, 5.5, 6.2; extension API for S6 in `features/today/extensions.ts`; full suite green after merge (319 unit, 24 e2e); checked at 390×844 |
 | S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
 | S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | **merged** (`81ee4f1`); reviewed against 6.1, 6.6 Data; the first agent stalled after drafting and was replaced by a second agent that reviewed, fixed, verified, and committed the draft; full suite green after merge (380 unit, 31 e2e); checked at 390×844 |
-| Wave 1 deploy + live smoke test | — | in progress (live smoke now walks first run → Today → Settings/Data) |
-| S4 Calendar | `slice/calendar` | not started |
-| S5 Progress | `slice/progress` | not started |
-| S6 Session extras | `slice/session-extras` | not started |
+| Wave 1 deploy + live smoke test | — | **done** — Deploy run #9 (`975ffbe`): CI, deploy, and live smoke (first run → template → Today shows Push cards → Settings Routine + Data) all green |
+| S4 Calendar | `slice/calendar` (worktree `/home/user/wt-calendar`) | in progress |
+| S5 Progress | `slice/progress` (worktree `/home/user/wt-progress`) | in progress |
+| S6 Session extras | `slice/session-extras` (worktree `/home/user/wt-session-extras`) | in progress |
 | Wave 2 deploy + live smoke test | — | not started |
 
 ### Phase 3 — Integration (sequential)
