@@ -57,6 +57,11 @@ Updated at every commit to `main`.
 | 13 | Lint, typecheck, all unit tests, all Playwright tests pass in CI | ✅ | Deploy workflow on `main` (see latest run) |
 | 14 | PROGRESS.md shows every item complete, with deviations explained | ✅ | This file |
 
+### Final verification
+- Deploy run #19 (`ccb1a14`): lint, typecheck, 531 unit tests, build, 60 Playwright tests (mobile 390×844 + desktop 1280×800), deploy to Pages, and the live smoke suite all green.
+- Live smoke on https://nfdzgg.github.io/Progressive-Overload-Tracker/ — 6 passed across three browsers: the end-to-end flow (first run → template → log Chest press → rest timer → reload keeps the log → Calendar → Progress → Settings) in iPhone-sized Chromium, **WebKit as iPhone 13**, and desktop Chromium; iPhone home-screen metadata and the 180×180 touch icon in WebKit; Chromium DevTools reports no installability errors and the live app reopens offline.
+- Not verified by the build agent: installing on a physical iPhone / Android phone and opening the installed desktop window; the timer sound and vibration on a real device; safe-area insets and on-screen-keyboard behavior on real hardware. The agent also could not open the live URL or download the CI screenshots directly, because the sandbox's network policy blocks `github.io` and `*.blob.core.windows.net`; the live checks ran in GitHub Actions instead.
+
 ## Branches
 - `main` — integration branch, deployed to GitHub Pages.
 - `claude/ecstatic-carson-w5p9o7` — session branch, kept in sync with `main`.
