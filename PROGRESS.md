@@ -23,8 +23,8 @@ Updated at every commit to `main`.
 |---|---|---|
 | S1 Today | `slice/today` (worktree `/home/user/wt-today`) | **merged** (`6757076`); reviewed against 5.1, 5.3, 5.5, 6.2; extension API for S6 in `features/today/extensions.ts`; full suite green after merge (319 unit, 24 e2e); checked at 390×844 |
 | S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
-| S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | in progress |
-| Wave 1 deploy + live smoke test | — | not started |
+| S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | **merged** (`81ee4f1`); reviewed against 6.1, 6.6 Data; the first agent stalled after drafting and was replaced by a second agent that reviewed, fixed, verified, and committed the draft; full suite green after merge (380 unit, 31 e2e); checked at 390×844 |
+| Wave 1 deploy + live smoke test | — | in progress (live smoke now walks first run → Today → Settings/Data) |
 | S4 Calendar | `slice/calendar` | not started |
 | S5 Progress | `slice/progress` | not started |
 | S6 Session extras | `slice/session-extras` | not started |
@@ -79,6 +79,8 @@ Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 23. **Settings (S2) confirmations.** Removing a cycle item or removing an exercise from a workout does not confirm (nothing is lost, easy to re-add); deleting a workout, archiving/deleting an exercise or variant, and both restarts always confirm. Reordering uses up/down buttons, not drag and drop; new cycle items go at the end.
 24. **Unique names.** Exercise names are unique (case-insensitive) because routine import matches by name; variant names are unique within an exercise. Changing the type of an existing exercise keeps its rep range and rest (defaults fill in only on create, per 4.1).
 25. **Today (S1) details.** Finishing with unlogged exercises asks first, then marks them skipped. `onSetCommitted` fires on blur only when the reps value changed while focused, is above 0, and is not the last set (tapping through filled fields does not restart the timer). Typed reps stay when switching chips; only weight prefill and placeholders swap, and a chip tap without a draft creates no session. Skipped cards show "Skipped" in the done style and reopen on tap. A cycle with only rest items shows the empty state.
+26. **Backup (S3) details.** "Last export" shows "Never" until the first full backup; the reminder row appears when the last full backup is more than 14 days old, or when it has never been exported and at least one set is logged (a fresh install is not nagged). Only the full JSON backup counts as an export (CSV and routine files cannot restore the device). A restored backup brings back the export date stored in the file, so data stays identical. Files are validated before the confirmation dialog; non-cancel share failures fall back to a download. Both import rows use danger red (DESIGN: "import that overwrites data"). First run preselects the template and lb so starting is one tap.
+27. **Integration fix after merging S3:** a Settings unit test asserted a chip state immediately after the database write; it now waits for the live query to re-render (same assertion, no weakening).
 
 ## Open questions
 _None._

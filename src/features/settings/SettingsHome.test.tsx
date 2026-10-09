@@ -43,7 +43,8 @@ describe('Preferences', () => {
     expect(within(unit).getByRole('radio', { name: 'lb' })).toBeChecked();
     await userEvent.click(within(unit).getByRole('radio', { name: 'kg' }));
     await waitFor(async () => expect((await getSettings()).unit).toBe('kg'));
-    expect(within(unit).getByRole('radio', { name: 'kg' })).toBeChecked();
+    // The chip follows the stored setting once the live query re-renders.
+    await waitFor(() => expect(within(unit).getByRole('radio', { name: 'kg' })).toBeChecked());
 
     const timer = screen.getByRole('radiogroup', { name: 'Rest timer' });
     await userEvent.click(within(timer).getByRole('radio', { name: 'Off' }));

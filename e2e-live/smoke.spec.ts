@@ -13,9 +13,6 @@ test('live site serves the current build and is installable', async ({ page, req
     }
   }).toPass({ timeout: 150_000, intervals: [5_000] });
 
-  // The app renders (first run on a fresh device).
-  await expect(page.locator('#root h1').first()).toBeVisible();
-
   // Manifest is served and standalone.
   const href = await page.locator('link[rel="manifest"]').getAttribute('href');
   const manifest = await (await request.get(new URL(href!, page.url()).toString())).json();
@@ -27,4 +24,18 @@ test('live site serves the current build and is installable', async ({ page, req
     return reg.scope;
   });
   expect(scope).toContain('/Progressive-Overload-Tracker/');
+
+  // First run → template → Today shows the first workout's cards.
+  await expect(page.getByRole('heading', { level: 1, name: 'Welcome' })).toBeVisible();
+  await page.getByRole('button', { name: 'Get started' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Push' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Chest press' })).toBeVisible();
+
+  // Settings has the routine and the data section.
+  await page
+    .getByRole('navigation', { name: 'Main' })
+    .getByRole('link', { name: 'Settings' })
+    .click();
+  await expect(page.getByRole('heading', { name: 'Routine' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Export full backup/ })).toBeVisible();
 });
