@@ -74,6 +74,8 @@ npm run lint:design    # npx @google/design.md lint DESIGN.md
 
 Playwright needs a Chromium build (`npx playwright install chromium` if you don't have one). It builds the app and serves a preview automatically; set `PW_PORT` to use another port.
 
+On a Mac with Xcode, `ios-install-check/run.sh` (needs `brew install xcodegen`) adds the live app to an iPhone Simulator's home screen through Safari and checks it opens standalone. It is test tooling only, not part of the app.
+
 ### Layout
 
 ```
@@ -95,6 +97,6 @@ Rules worth knowing:
 
 ## Deploy
 
-Pushing to `main` runs `.github/workflows/deploy.yml`: the full CI (lint, typecheck, unit tests, build, Playwright), then a build for GitHub Pages, the deploy, and a Playwright smoke test against the live URL. Pull requests and other branches run `.github/workflows/ci.yml`.
+Pushing to `main` runs `.github/workflows/deploy.yml`: the full CI (lint, typecheck, unit tests, build, Playwright), then a build for GitHub Pages, the deploy, and two checks against the live URL: a Playwright smoke test (iPhone-sized Chromium, WebKit as an iPhone, desktop Chromium, plus a real desktop install) and, on a macOS runner, Add to Home Screen in the iOS Simulator's Safari (`.github/workflows/ios-install.yml`). Pull requests and other branches run `.github/workflows/ci.yml`.
 
 GitHub Pages must be set to deploy from **GitHub Actions** (repository Settings → Pages → Source). The Vite `base` is the repository name (`/Progressive-Overload-Tracker/`); if you fork under a different name, change `BASE_PATH` in `vite.config.ts` and the URLs in `playwright.live.config.ts` and `e2e/shell.spec.ts`.

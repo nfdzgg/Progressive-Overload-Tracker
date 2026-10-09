@@ -1,15 +1,12 @@
 name: iPhone install
 
-# Adds the live app to an iPhone home screen (iOS Simulator, real iOS Safari)
-# and opens it standalone. Called by deploy.yml after each deploy.
+# Acceptance 1 on iPhone: adds the live app to the home screen of an iOS
+# Simulator through the real iOS Safari (Share → Add to Home Screen), opens it
+# from the home screen, and checks it runs standalone. Called by deploy.yml
+# after each deploy; screenshots are printed to the job log.
 on:
   workflow_call:
   workflow_dispatch:
-  push:
-    branches: [claude/ecstatic-carson-w5p9o7]
-    paths:
-      - ios-install-check/**
-      - .github/workflows/ios-install.yml
 
 permissions:
   contents: read

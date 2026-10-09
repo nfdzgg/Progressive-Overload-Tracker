@@ -84,3 +84,8 @@ jobs:
           name: live-smoke-screenshots
           path: test-results/live
           retention-days: 14
+
+  iphone-install:
+    name: iPhone install
+    needs: deploy
+    uses: ./.github/workflows/ios-install.yml
