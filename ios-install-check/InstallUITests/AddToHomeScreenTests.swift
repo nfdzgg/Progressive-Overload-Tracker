@@ -25,6 +25,12 @@ final class AddToHomeScreenTests: XCTestCase {
         safari.launch()
         tapFirst(["Continue", "Not Now"], in: safari, timeout: 3)
         XCUIDevice.shared.system.open(URL(string: liveURL)!)
+        // Let the page load and any Safari tip settle before reading the UI tree
+        // (a query during the iOS 26 tip animation timed out).
+        sleep(10)
+        if let tipClose = firstHittable(["Close"], in: safari) {
+            tipClose.tap()
+        }
         if !waitFor("Welcome", in: safari, timeout: 45) {
             if let address = firstHittable(["Address", "URL", "TabBarItemTitle"], in: safari) {
                 address.tap()

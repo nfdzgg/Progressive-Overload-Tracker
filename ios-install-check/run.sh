@@ -33,10 +33,11 @@ print("Simulator:", best[2], best[3], file=sys.stderr)
 
 xcrun simctl boot "$UDID" 2>/dev/null || true
 xcrun simctl bootstatus "$UDID" -b
-# Warm up Safari: its first launch on a fresh simulator can outlast XCTest's
-# app launch timeout.
-xcrun simctl launch "$UDID" com.apple.mobilesafari >/dev/null
-sleep 30
+# Warm up Safari on the live URL: its first launch on a fresh simulator can
+# outlast XCTest's app launch timeout, and iOS 26 shows a one-time tip about
+# the ••• menu on the first page load.
+xcrun simctl openurl "$UDID" "$LIVE_URL"
+sleep 45
 xcrun simctl terminate "$UDID" com.apple.mobilesafari 2>/dev/null || true
 xcodegen generate
 rm -rf build/InstallCheck.xcresult
