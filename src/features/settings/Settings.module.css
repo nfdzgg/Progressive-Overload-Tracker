@@ -1,0 +1,72 @@
+/* Reorderable rows inside a settings group (cycle items, workout exercises,
+   variants): text at the left, 44px icon buttons at the right. */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--tap-target);
+  padding: var(--space-xxs) 0;
+  border-bottom: var(--border-hairline);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.leading {
+  flex: none;
+  min-width: var(--space-md);
+  color: var(--color-ink-tertiary);
+  font: var(--type-body-sm);
+  letter-spacing: var(--type-body-sm-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.text {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  min-width: 0;
+  padding: var(--space-xs) 0;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-ink);
+  font: var(--type-body);
+  letter-spacing: var(--type-body-tracking);
+  overflow-wrap: anywhere;
+}
+
+.detail {
+  color: var(--color-ink-subtle);
+  font: var(--type-body-sm);
+  letter-spacing: var(--type-body-sm-tracking);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  gap: var(--space-xs);
+  margin-right: calc(var(--space-sm) * -1);
+}
+
+/* Content inside a settings group that is not a list of rows. */
+.inset {
+  padding: var(--space-md) 0;
+}
+
+.numbers {
+  font-variant-numeric: tabular-nums;
+}
