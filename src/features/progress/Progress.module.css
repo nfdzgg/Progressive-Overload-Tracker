@@ -1,0 +1,121 @@
+/*
+ * One column of dashboard cards. On wide windows (Progress only) the cards
+ * go 2-up as two flowing columns: the order still reads top to bottom (down
+ * the first column, then the second), and cards of different heights leave
+ * no holes and are never stretched.
+ */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    display: block;
+    column-count: 2;
+    column-gap: var(--space-sm);
+  }
+
+  .cell {
+    break-inside: avoid;
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* Key value (card-title) with its caption label. */
+.stat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+/* Space between the key value and the chart or list below it. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-xxs);
+}
+
+.value {
+  color: var(--color-ink);
+  font: var(--type-body-sm);
+  white-space: nowrap;
+}
+
+/* PR value with its date below, right-aligned. */
+.trailing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xxs);
+}
+
+.date {
+  color: var(--color-ink-subtle);
+  font: var(--type-caption);
+  white-space: nowrap;
+}
+
+.badges {
+  display: inline-flex;
+  gap: var(--space-xxs);
+}
+
+.subhead {
+  padding-top: var(--space-xs);
+}
+
+/* Chart key: series lines, PR dot, deload ring. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-md);
+  row-gap: var(--space-xxs);
+  color: var(--color-ink-subtle);
+  font: var(--type-caption);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xxs);
+}
+
+.swatchLine {
+  display: inline-block;
+  width: var(--space-sm);
+  height: var(--chart-line-width);
+  border-radius: var(--radius-xs);
+  background: var(--color-ink-subtle);
+}
+
+.swatchPrimary {
+  background: var(--color-primary);
+}
+
+.swatchDot {
+  display: inline-block;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-full);
+  background: var(--color-semantic-success);
+}
+
+.swatchRing {
+  background: var(--color-canvas);
+  border: var(--chart-line-width) solid var(--color-ink-tertiary);
+}
