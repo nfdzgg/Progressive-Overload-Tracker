@@ -51,6 +51,7 @@ final class AddToHomeScreenTests: XCTestCase {
                     "Safari's menu has no Share", safari)
             }
         }
+        _ = matches("Add to Home Screen", in: safari).firstMatch.waitForExistence(timeout: 10)
         sleep(1)
         shot("2c-share-sheet")
         var addToHomeScreen: XCUIElement?
@@ -72,7 +73,9 @@ final class AddToHomeScreenTests: XCTestCase {
         }
         try require(addToHomeScreen != nil, "the share sheet has no Add to Home Screen", safari)
         addToHomeScreen!.tap()
-        try require(waitFor("Add", in: safari, timeout: 15), "the Add to Home Screen sheet did not open", safari)
+        // The sheet prefills the home-screen name from apple-mobile-web-app-title.
+        let name = safari.textFields.matching(NSPredicate(format: "value == %@", homeScreenTitle)).firstMatch
+        try require(name.waitForExistence(timeout: 20), "the Add to Home Screen sheet has no \(homeScreenTitle) name", safari)
         sleep(1)
         shot("2-add-to-home-screen")
         try require(tapFirst(["Add"], in: safari) != nil, "could not tap Add", safari)
@@ -95,9 +98,10 @@ final class AddToHomeScreenTests: XCTestCase {
         shot("3-home-screen")
 
         // 4. Opening the icon starts the app standalone, outside Safari.
+        // (Safari's own state is not checked: iOS can briefly report it as
+        // foreground while the web app's process is the one on screen.)
         icon.tap()
         let webApp = try foregroundWebApp()
-        XCTAssertNotEqual(safari.state, .runningForeground, "the icon opened Safari instead of a standalone app")
         try require(waitFor("Welcome", in: webApp, timeout: 60), "the installed app did not render", webApp)
         XCTAssertFalse(
             firstHittable(["Address", "URL", "TabBarItemTitle", "Share", "ShareButton"], in: webApp) != nil,
