@@ -11,7 +11,7 @@ Updated at every commit to `main`.
 
 ### Phase 1 — Foundation (sequential)
 - [x] 1. Scaffold: Vite, TS strict, ESLint, Prettier, Vitest, Playwright, CI
-- [ ] 2. `design/`: tokens.css generated from DESIGN.md, global styles, bundled fonts
+- [x] 2. `design/`: tokens.css generated from DESIGN.md (`npm run tokens`, sync test in `scripts/generate-tokens.test.ts`), global styles, bundled fonts
 - [ ] 3. `ui/`: shared components with render tests, `/#/kitchen-sink`
 - [ ] 4. `domain/`: section 4 types, section 5 rules, test-first
 - [ ] 5. `data/`: Dexie schema, repositories, seed template, backup round-trip
@@ -49,7 +49,8 @@ Updated at every commit to `main`.
 5. **Design-token lint.** `scripts/check-design-tokens.mjs` runs inside `npm run lint` and rejects raw colors, lengths, font families, and font weights in any CSS outside `tokens.css`, and in feature TypeScript.
 
 ## Decisions on ambiguities
-_None yet._
+1. **Tokens beyond the front matter.** Values DESIGN.md states only in prose (44px tap target, 20/24px icons, 56px bars, 480/960px columns, 2px focus ring at 50%, 60% scrim, 150–200ms motion, 1.5px icon stroke) are emitted in a "Derived" block of `tokens.css` so feature code never needs a raw value.
+2. **Font subsets.** Inter is bundled with the latin and latin-ext subsets (400/500/600); JetBrains Mono with latin 400 only (it renders the timer digits). Other scripts fall back to the system font.
 
 ## Open questions
 _None._

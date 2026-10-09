@@ -1,0 +1,302 @@
+/* Generated from DESIGN.md by scripts/generate-tokens.mjs. Do not edit by hand. */
+/* Run `npm run tokens` after changing DESIGN.md. */
+:root {
+  /* Font stacks */
+  --font-sans: Inter, -apple-system, 'SF Pro Text', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Colors */
+  --color-primary: #5e6ad2;
+  --color-on-primary: #ffffff;
+  --color-primary-hover: #828fff;
+  --color-primary-focus: #5e69d1;
+  --color-ink: #f7f8f8;
+  --color-ink-muted: #d0d6e0;
+  --color-ink-subtle: #8a8f98;
+  --color-ink-tertiary: #62666d;
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-surface-3: #18191a;
+  --color-surface-4: #191a1b;
+  --color-hairline: #23252a;
+  --color-hairline-strong: #34343a;
+  --color-hairline-tertiary: #3e3e44;
+  --color-inverse-canvas: #ffffff;
+  --color-inverse-surface-1: #f5f6f6;
+  --color-inverse-surface-2: #f6f7f7;
+  --color-inverse-ink: #000000;
+  --color-semantic-success: #27a644;
+  --color-semantic-danger: #eb5757;
+  --color-semantic-overlay: #000000;
+
+  /* Typography */
+  --type-display-md: 600 40px/1.15 var(--font-sans);
+  --type-display-md-family: var(--font-sans);
+  --type-display-md-size: 40px;
+  --type-display-md-weight: 600;
+  --type-display-md-line-height: 1.15;
+  --type-display-md-tracking: -1.0px;
+  --type-headline: 600 28px/1.20 var(--font-sans);
+  --type-headline-family: var(--font-sans);
+  --type-headline-size: 28px;
+  --type-headline-weight: 600;
+  --type-headline-line-height: 1.20;
+  --type-headline-tracking: -0.6px;
+  --type-card-title: 500 22px/1.25 var(--font-sans);
+  --type-card-title-family: var(--font-sans);
+  --type-card-title-size: 22px;
+  --type-card-title-weight: 500;
+  --type-card-title-line-height: 1.25;
+  --type-card-title-tracking: -0.4px;
+  --type-subhead: 400 20px/1.40 var(--font-sans);
+  --type-subhead-family: var(--font-sans);
+  --type-subhead-size: 20px;
+  --type-subhead-weight: 400;
+  --type-subhead-line-height: 1.40;
+  --type-subhead-tracking: -0.2px;
+  --type-body-lg: 400 18px/1.50 var(--font-sans);
+  --type-body-lg-family: var(--font-sans);
+  --type-body-lg-size: 18px;
+  --type-body-lg-weight: 400;
+  --type-body-lg-line-height: 1.50;
+  --type-body-lg-tracking: -0.1px;
+  --type-body: 400 16px/1.50 var(--font-sans);
+  --type-body-family: var(--font-sans);
+  --type-body-size: 16px;
+  --type-body-weight: 400;
+  --type-body-line-height: 1.50;
+  --type-body-tracking: -0.05px;
+  --type-body-sm: 400 14px/1.50 var(--font-sans);
+  --type-body-sm-family: var(--font-sans);
+  --type-body-sm-size: 14px;
+  --type-body-sm-weight: 400;
+  --type-body-sm-line-height: 1.50;
+  --type-body-sm-tracking: 0;
+  --type-caption: 400 12px/1.40 var(--font-sans);
+  --type-caption-family: var(--font-sans);
+  --type-caption-size: 12px;
+  --type-caption-weight: 400;
+  --type-caption-line-height: 1.40;
+  --type-caption-tracking: 0;
+  --type-button: 500 14px/1.20 var(--font-sans);
+  --type-button-family: var(--font-sans);
+  --type-button-size: 14px;
+  --type-button-weight: 500;
+  --type-button-line-height: 1.20;
+  --type-button-tracking: 0;
+  --type-eyebrow: 500 13px/1.30 var(--font-sans);
+  --type-eyebrow-family: var(--font-sans);
+  --type-eyebrow-size: 13px;
+  --type-eyebrow-weight: 500;
+  --type-eyebrow-line-height: 1.30;
+  --type-eyebrow-tracking: 0.4px;
+  --type-mono: 400 13px/1.50 var(--font-mono);
+  --type-mono-family: var(--font-mono);
+  --type-mono-size: 13px;
+  --type-mono-weight: 400;
+  --type-mono-line-height: 1.50;
+  --type-mono-tracking: 0;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-xxl: 24px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  /* Components */
+  --button-primary-bg: var(--color-primary);
+  --button-primary-fg: var(--color-on-primary);
+  --button-primary-font: var(--type-button);
+  --button-primary-tracking: var(--type-button-tracking);
+  --button-primary-radius: var(--radius-md);
+  --button-primary-padding: 8px 14px;
+  --button-primary-height: 44px;
+  --button-primary-pressed-bg: var(--color-primary-focus);
+  --button-primary-pressed-fg: var(--color-on-primary);
+  --button-primary-pressed-font: var(--type-button);
+  --button-primary-pressed-tracking: var(--type-button-tracking);
+  --button-primary-pressed-radius: var(--radius-md);
+  --button-primary-hover-bg: var(--color-primary-hover);
+  --button-primary-hover-fg: var(--color-on-primary);
+  --button-primary-hover-font: var(--type-button);
+  --button-primary-hover-tracking: var(--type-button-tracking);
+  --button-primary-hover-radius: var(--radius-md);
+  --button-secondary-bg: var(--color-surface-1);
+  --button-secondary-fg: var(--color-ink);
+  --button-secondary-font: var(--type-button);
+  --button-secondary-tracking: var(--type-button-tracking);
+  --button-secondary-radius: var(--radius-md);
+  --button-secondary-padding: 8px 14px;
+  --button-secondary-height: 44px;
+  --button-tertiary-bg: var(--color-canvas);
+  --button-tertiary-fg: var(--color-ink);
+  --button-tertiary-font: var(--type-button);
+  --button-tertiary-tracking: var(--type-button-tracking);
+  --button-tertiary-radius: var(--radius-md);
+  --button-tertiary-padding: 8px 14px;
+  --button-tertiary-height: 44px;
+  --button-destructive-bg: var(--color-surface-1);
+  --button-destructive-fg: var(--color-semantic-danger);
+  --button-destructive-font: var(--type-button);
+  --button-destructive-tracking: var(--type-button-tracking);
+  --button-destructive-radius: var(--radius-md);
+  --button-destructive-padding: 8px 14px;
+  --button-destructive-height: 44px;
+  --exercise-card-bg: var(--color-surface-1);
+  --exercise-card-fg: var(--color-ink);
+  --exercise-card-font: var(--type-body);
+  --exercise-card-tracking: var(--type-body-tracking);
+  --exercise-card-radius: var(--radius-lg);
+  --exercise-card-padding: 16px;
+  --exercise-card-done-bg: var(--color-canvas);
+  --exercise-card-done-fg: var(--color-ink-subtle);
+  --exercise-card-done-font: var(--type-body);
+  --exercise-card-done-tracking: var(--type-body-tracking);
+  --exercise-card-done-radius: var(--radius-lg);
+  --exercise-card-done-padding: 16px;
+  --dashboard-card-bg: var(--color-surface-1);
+  --dashboard-card-fg: var(--color-ink);
+  --dashboard-card-font: var(--type-body);
+  --dashboard-card-tracking: var(--type-body-tracking);
+  --dashboard-card-radius: var(--radius-lg);
+  --dashboard-card-padding: 16px;
+  --variant-chip-default-bg: var(--color-canvas);
+  --variant-chip-default-fg: var(--color-ink-subtle);
+  --variant-chip-default-font: var(--type-button);
+  --variant-chip-default-tracking: var(--type-button-tracking);
+  --variant-chip-default-radius: var(--radius-pill);
+  --variant-chip-default-padding: 6px 14px;
+  --variant-chip-selected-bg: var(--color-surface-3);
+  --variant-chip-selected-fg: var(--color-ink);
+  --variant-chip-selected-font: var(--type-button);
+  --variant-chip-selected-tracking: var(--type-button-tracking);
+  --variant-chip-selected-radius: var(--radius-pill);
+  --variant-chip-selected-padding: 6px 14px;
+  --number-input-bg: var(--color-canvas);
+  --number-input-fg: var(--color-ink);
+  --number-input-font: var(--type-body);
+  --number-input-tracking: var(--type-body-tracking);
+  --number-input-radius: var(--radius-md);
+  --number-input-padding: 8px 12px;
+  --number-input-height: 44px;
+  --number-input-focused-bg: var(--color-canvas);
+  --number-input-focused-fg: var(--color-ink);
+  --number-input-focused-font: var(--type-body);
+  --number-input-focused-tracking: var(--type-body-tracking);
+  --number-input-focused-radius: var(--radius-md);
+  --number-input-focused-padding: 8px 12px;
+  --number-input-focused-height: 44px;
+  --text-input-bg: var(--color-surface-1);
+  --text-input-fg: var(--color-ink);
+  --text-input-font: var(--type-body);
+  --text-input-tracking: var(--type-body-tracking);
+  --text-input-radius: var(--radius-md);
+  --text-input-padding: 8px 12px;
+  --text-input-height: 44px;
+  --rest-timer-bg: var(--color-surface-2);
+  --rest-timer-fg: var(--color-ink);
+  --rest-timer-font: var(--type-body);
+  --rest-timer-tracking: var(--type-body-tracking);
+  --rest-timer-radius: var(--radius-lg);
+  --rest-timer-padding: 12px 16px;
+  --bottom-sheet-bg: var(--color-surface-2);
+  --bottom-sheet-fg: var(--color-ink);
+  --bottom-sheet-font: var(--type-body);
+  --bottom-sheet-tracking: var(--type-body-tracking);
+  --bottom-sheet-radius: var(--radius-xl);
+  --bottom-sheet-padding: 24px;
+  --list-row-bg: var(--color-canvas);
+  --list-row-fg: var(--color-ink);
+  --list-row-font: var(--type-body);
+  --list-row-tracking: var(--type-body-tracking);
+  --list-row-radius: var(--radius-xs);
+  --list-row-padding: 16px 0;
+  --status-badge-bg: var(--color-surface-2);
+  --status-badge-fg: var(--color-ink-muted);
+  --status-badge-font: var(--type-caption);
+  --status-badge-tracking: var(--type-caption-tracking);
+  --status-badge-radius: var(--radius-pill);
+  --status-badge-padding: 2px 8px;
+  --status-badge-success-bg: var(--color-surface-2);
+  --status-badge-success-fg: var(--color-semantic-success);
+  --status-badge-success-font: var(--type-caption);
+  --status-badge-success-tracking: var(--type-caption-tracking);
+  --status-badge-success-radius: var(--radius-pill);
+  --status-badge-success-padding: 2px 8px;
+  --calendar-day-bg: var(--color-canvas);
+  --calendar-day-fg: var(--color-ink-muted);
+  --calendar-day-font: var(--type-body-sm);
+  --calendar-day-tracking: var(--type-body-sm-tracking);
+  --calendar-day-radius: var(--radius-md);
+  --calendar-day-height: 44px;
+  --calendar-day-today-bg: var(--color-surface-2);
+  --calendar-day-today-fg: var(--color-ink);
+  --calendar-day-today-font: var(--type-body-sm);
+  --calendar-day-today-tracking: var(--type-body-sm-tracking);
+  --calendar-day-today-radius: var(--radius-md);
+  --calendar-day-today-height: 44px;
+  --top-bar-bg: var(--color-canvas);
+  --top-bar-fg: var(--color-ink);
+  --top-bar-font: var(--type-body-sm);
+  --top-bar-tracking: var(--type-body-sm-tracking);
+  --top-bar-radius: var(--radius-xs);
+  --top-bar-height: 56px;
+  --bottom-tab-bar-bg: var(--color-canvas);
+  --bottom-tab-bar-fg: var(--color-ink-subtle);
+  --bottom-tab-bar-font: var(--type-caption);
+  --bottom-tab-bar-tracking: var(--type-caption-tracking);
+  --bottom-tab-bar-radius: var(--radius-xs);
+  --bottom-tab-bar-height: 56px;
+
+  /* Derived from DESIGN.md prose */
+  --font-weight-regular: 400; /* Inter weights 400 / 500 / 600 */
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --border-width: 1px; /* 1px hairline borders */
+  --border-hairline: var(--border-width) solid var(--color-hairline);
+  --border-hairline-strong: var(--border-width) solid var(--color-hairline-strong);
+  --border-hairline-tertiary: var(--border-width) solid var(--color-hairline-tertiary);
+  --focus-ring-width: 2px; /* Level 4: 2px primary-focus outline at 50% opacity */
+  --focus-ring-color: color-mix(in srgb, var(--color-primary-focus) 50%, transparent);
+  --focus-ring: var(--focus-ring-width) solid var(--focus-ring-color);
+  --focus-ring-offset: 2px;
+  --overlay-scrim: color-mix(in srgb, var(--color-semantic-overlay) 60%, transparent); /* scrim at 60% */
+  --edge-highlight: inset 0 1px 0 color-mix(in srgb, var(--color-ink) 6%, transparent); /* subtle white top edge on lifted panels */
+  --tap-target: 44px; /* minimum tap target */
+  --chip-height: 34px; /* chip visual height 32-36px */
+  --icon-card: 20px; /* icons in cards */
+  --icon-tab: 24px; /* icons in the tab bar */
+  --icon-stroke: 1.5; /* line icons, 1.5px stroke */
+  --top-bar-height: 56px;
+  --tab-bar-height: 56px;
+  --content-max: 480px; /* phone-shaped column */
+  --content-max-wide: 960px; /* Progress screen on wide windows */
+  --progress-line: 2px; /* rest timer progress line */
+  --dot-size: 4px; /* completed-day marker */
+  --drag-handle-width: 36px;
+  --drag-handle-height: 4px;
+  --sheet-max-height: 85vh;
+  --chart-line-width: 2px;
+  --chart-point-size: 4px;
+  --chart-height: 160px;
+  --motion-duration: 180ms; /* 150-200ms ease-out */
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
