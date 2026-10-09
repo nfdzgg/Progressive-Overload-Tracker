@@ -15,15 +15,15 @@ Updated at every commit to `main`.
 - [x] 3. `ui/`: shared components with render tests, `/#/kitchen-sink` (checked visually at 390×844)
 - [x] 4. `domain/`: section 4 types, section 5 rules, test-first (98 named tests: cycle, projection, targets, e1RM, PRs, stalled, weekly, units, dates, format)
 - [x] 5. `data/`: Dexie schema (v1), repositories, live-query hooks, seed template (tested row by row against section 7), backup serialize/parse with round-trip and export→wipe→import tests, routine merge, CSV, migration framework
-- [ ] 6. `app/`: shell, four tabs routed to placeholder screens, first-run gate, safe areas, keyboard-aware bottom bar, PWA manifest + icons + service worker (updates apply on next launch), bundled timer sound, e2e fixtures and test hooks — deploy pending
-- [ ] Foundation freeze
+- [x] 6. `app/`: shell, four tabs routed to placeholder screens, first-run gate, safe areas, keyboard-aware bottom bar, PWA manifest + icons + service worker (updates apply on next launch), bundled timer sound, e2e fixtures and test hooks — live on GitHub Pages (Deploy run #5: CI, deploy, and live smoke test green; service worker registers on the live URL)
+- [x] Foundation freeze at `7f5a984` — `domain/`, `data/`, `ui/`, `design/`, `app/` are read-only for slices
 
 ### Phase 2 — Vertical slices
 | Slice | Branch | Status |
 |---|---|---|
-| S1 Today | `slice/today` | not started |
-| S2 Settings | `slice/settings` | not started |
-| S3 Backup | `slice/backup` | not started |
+| S1 Today | `slice/today` (worktree `/home/user/wt-today`) | in progress |
+| S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | in progress |
+| S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | in progress |
 | Wave 1 deploy + live smoke test | — | not started |
 | S4 Calendar | `slice/calendar` | not started |
 | S5 Progress | `slice/progress` | not started |
@@ -40,6 +40,9 @@ Updated at every commit to `main`.
 ## Branches
 - `main` — integration branch, deployed to GitHub Pages.
 - `claude/ecstatic-carson-w5p9o7` — session branch, kept in sync with `main`.
+- `slice/<name>` — one local branch + git worktree per Phase 2 slice, merged into `main` one at a time after review.
+
+Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 
 ## Deviations from the spec (with reasons)
 1. **Spec file names.** The upload named the files `SPEC (3).md` and `DESIGN (2).md`; renamed to `SPEC.md` and `DESIGN.md` to match the layout in SPEC 9.1.
