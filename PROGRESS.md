@@ -14,7 +14,7 @@ Updated at every commit to `main`.
 - [x] 2. `design/`: tokens.css generated from DESIGN.md (`npm run tokens`, sync test in `scripts/generate-tokens.test.ts`), global styles, bundled fonts
 - [x] 3. `ui/`: shared components with render tests, `/#/kitchen-sink` (checked visually at 390×844)
 - [x] 4. `domain/`: section 4 types, section 5 rules, test-first (98 named tests: cycle, projection, targets, e1RM, PRs, stalled, weekly, units, dates, format)
-- [ ] 5. `data/`: Dexie schema, repositories, seed template, backup round-trip
+- [x] 5. `data/`: Dexie schema (v1), repositories, live-query hooks, seed template (tested row by row against section 7), backup serialize/parse with round-trip and export→wipe→import tests, routine merge, CSV, migration framework
 - [ ] 6. `app/`: shell, four tabs, safe areas, PWA, deploy — live on GitHub Pages
 - [ ] Foundation freeze
 
@@ -62,6 +62,12 @@ Updated at every commit to `main`.
 10. **Streak.** The current week counts if it has a finished session; an empty current week does not break the streak (it is counted from last week).
 11. **Editing cycle items** keeps the pointer index if it is still in range, otherwise resets it to 0.
 12. **Volume includes deload sessions** (5.7 excludes nothing; only references, PRs, and stalled exclude deloads).
+13. **Done cards reopen as drafts.** Tapping a done card sets its entry back to `draft`; it counts again once Log is pressed.
+14. **Finishing creates skipped entries** for workout exercises that were never touched, so the calendar can show them as skipped.
+15. **Past sessions added from the calendar are created `finished`** (so Today never "resumes" them) and do not move the pointer.
+16. **Routine import** matches exercises by name (case-insensitive, trimmed); a match takes the file's settings (type, muscle, sets, reps, rest, per-set weight) and is unarchived, and its variants are matched by name the same way (unmatched variants are added; existing ones not in the file are kept). Workouts and cycle are replaced and the cycle starts at its first item today.
+17. **Routine export** contains active exercises with their active variants (including notes), workouts, and cycle items. No sessions, entries, or settings.
+18. **Full backup includes settings** (unit, timer preferences, last export date), so a restore is identical.
 
 ## Open questions
 _None._
