@@ -32,7 +32,7 @@ Updated at every commit to `main`.
 
 ### Phase 3 — Integration (sequential)
 - [x] 1. Full-product Playwright journey (`e2e/journey.spec.ts`, runs at 390×844 and 1280×800): first run with the template → a past session logged from the calendar → full Push session logged on Today → PR badge and rest timer → session auto-finishes → calendar shows it finished and the next day projected as Pull → Progress shows the session, 12 hard sets, and the PR → next day Today shows Pull → an exercise edited in Settings shows on Today without a reload → export, wipe, import → identical data
-- [ ] 2. Offline check
+- [x] 2. Offline check (`e2e/offline.spec.ts`, mobile + desktop): after one online load the service worker controls the page; with the network disabled the app reloads from cache, first run completes, fonts and the timer sound are served, a full Push session is logged, and the data survives an offline reload
 - [ ] 3. Design pass + `npx @google/design.md lint DESIGN.md`
 - [ ] 4. Accessibility pass
 - [ ] 5. README
