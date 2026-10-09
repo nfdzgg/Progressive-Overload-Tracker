@@ -1,0 +1,9 @@
+/* Live regions stay in the DOM (so updates are announced) but take no space when empty. */
+.notice:not(:empty) {
+  padding-top: var(--space-xs);
+}
+
+/* A picked file's name can be one long word; let it wrap inside the dialog. */
+.fileName {
+  overflow-wrap: anywhere;
+}
