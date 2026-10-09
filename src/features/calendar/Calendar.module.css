@@ -9,6 +9,18 @@
   gap: var(--space-xs);
 }
 
+/*
+ * Below 360px a column is narrower than the 44px target anyway: the cells
+ * touch (no dead zone between them; only today's cell has a visible edge) so
+ * short labels such as "Push" still fit.
+ */
+@media (max-width: 359px) {
+  .grid,
+  .weekdays {
+    column-gap: 0;
+  }
+}
+
 .weekdays {
   text-align: center;
 }
@@ -24,7 +36,8 @@
   outline: none;
 }
 
-.sessionActions {
+/* Destructive actions sit a little apart from the content above them. */
+.destructive {
   padding-top: var(--space-xs);
 }
 

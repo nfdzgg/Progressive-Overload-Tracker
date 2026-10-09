@@ -282,7 +282,7 @@ function SessionBlock({ session, data, onEdit, onLog, onDelete }: SessionBlockPr
             })}
           </ListGroup>
         )}
-        <div className={styles.sessionActions}>
+        <div className={styles.destructive}>
           <Button variant="destructive" fullWidth onClick={onDelete}>
             Delete session
           </Button>
@@ -476,9 +476,11 @@ function EditorBody({ state, date, unit, onChange, onDelete }: EditorBodyProps) 
         </div>
       )}
       {state.kind === 'edit' && (
-        <Button variant="destructive" fullWidth onClick={onDelete}>
-          Delete entry
-        </Button>
+        <div className={styles.destructive}>
+          <Button variant="destructive" fullWidth onClick={onDelete}>
+            Delete entry
+          </Button>
+        </div>
       )}
     </Stack>
   );
