@@ -1,0 +1,71 @@
+/* Reference line: last session's numbers, then the target on the same line. */
+.reference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-xs);
+  row-gap: var(--space-xxs);
+}
+
+/*
+ * Input row: equal columns that wrap when the sets do not fit. The weight
+ * field spans two columns because it carries the unit; Log sits in the last
+ * column, at the end of the (last) row.
+ */
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--number-input-min-width), 1fr));
+  gap: var(--space-xs);
+}
+
+.weight {
+  grid-column: span 2;
+}
+
+.log {
+  grid-column: -2 / -1;
+}
+
+/* Per-set weight: one row per set (weight next to reps), Log after the last set. */
+.rowPerSet {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  gap: var(--space-xs);
+}
+
+.setWeight {
+  grid-column: 1;
+}
+
+.logPerSet {
+  grid-column: 3;
+}
+
+/* Done card: the whole card reopens it; header actions stay tappable above. */
+.doneCard {
+  position: relative;
+}
+
+.reopen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  touch-action: manipulation;
+}
+
+.reopen:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: var(--space-xs);
+}
