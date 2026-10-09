@@ -21,7 +21,7 @@ Updated at every commit to `main`.
 ### Phase 2 — Vertical slices
 | Slice | Branch | Status |
 |---|---|---|
-| S1 Today | `slice/today` (worktree `/home/user/wt-today`) | in progress |
+| S1 Today | `slice/today` (worktree `/home/user/wt-today`) | **merged** (`6757076`); reviewed against 5.1, 5.3, 5.5, 6.2; extension API for S6 in `features/today/extensions.ts`; full suite green after merge (319 unit, 24 e2e); checked at 390×844 |
 | S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
 | S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | in progress |
 | Wave 1 deploy + live smoke test | — | not started |
@@ -51,6 +51,7 @@ Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 4. **"Plus one desktop run"** is implemented as a second Playwright project (1280×800) that runs every test tagged `@desktop`.
 5. **Design-token lint.** `scripts/check-design-tokens.mjs` runs inside `npm run lint` and rejects raw colors, lengths, font families, and font weights in any CSS outside `tokens.css`, and in feature TypeScript.
 6. **`createdAt` on `Session` and `LogEntry`.** Section 4 has only calendar dates, but "most recent", "first logged entry", and "latest three" need an order when two sessions share a date (for example Lateral raise in Push and Pull on the same day via "Start next workout"). Both records carry an epoch-ms `createdAt` used only as a same-date tie-breaker.
+7. **Weight field slightly wider than the set fields.** DESIGN asks for equal columns in the input row; the weight field starts at 1.75× the minimum field width because it carries the unit suffix, which otherwise clips values like "102.5". Set fields stay equal; the row wraps when sets don't fit, Log stays at the end.
 
 ## Decisions on ambiguities
 1. **Tokens beyond the front matter.** Values DESIGN.md states only in prose (44px tap target, 20/24px icons, 56px bars, 480/960px columns, 2px focus ring at 50%, 60% scrim, 150–200ms motion, 1.5px icon stroke) are emitted in a "Derived" block of `tokens.css` so feature code never needs a raw value.
@@ -77,6 +78,7 @@ Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 22. **Settings (S2) inputs.** Rest time is a select in 30-second steps (0:30–5:00; an off-step value is kept in the list); sets is a 1–10 select; rep min/max are validated whole numbers (min ≤ max, invalid style per DESIGN). Exercise edits save as you go (an invalid field is not saved until fixed); creating uses an explicit "Create exercise" button.
 23. **Settings (S2) confirmations.** Removing a cycle item or removing an exercise from a workout does not confirm (nothing is lost, easy to re-add); deleting a workout, archiving/deleting an exercise or variant, and both restarts always confirm. Reordering uses up/down buttons, not drag and drop; new cycle items go at the end.
 24. **Unique names.** Exercise names are unique (case-insensitive) because routine import matches by name; variant names are unique within an exercise. Changing the type of an existing exercise keeps its rep range and rest (defaults fill in only on create, per 4.1).
+25. **Today (S1) details.** Finishing with unlogged exercises asks first, then marks them skipped. `onSetCommitted` fires on blur only when the reps value changed while focused, is above 0, and is not the last set (tapping through filled fields does not restart the timer). Typed reps stay when switching chips; only weight prefill and placeholders swap, and a chip tap without a draft creates no session. Skipped cards show "Skipped" in the done style and reopen on tap. A cycle with only rest items shows the empty state.
 
 ## Open questions
 _None._
