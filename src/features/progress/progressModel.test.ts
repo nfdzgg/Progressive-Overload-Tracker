@@ -326,6 +326,17 @@ describe('exercise detail', () => {
     expect(variantOptions(ctx, 'curl')).toEqual([]);
   });
 
+  it('ignores entries whose variant is unknown to the exercise', () => {
+    const ctx = buildContext(
+      data([
+        session('2026-03-02', [{ variantId: 'machine', weight: 100, reps: [8, 8] }]),
+        session('2026-03-03', [{ exerciseId: 'curl', variantId: 'unknown', reps: [12] }]),
+      ]),
+    );
+    expect(exerciseOptions(ctx).map((o) => o.value)).toEqual(['chest']);
+    expect(resolveSelection(ctx, {})).toEqual({ exerciseId: 'chest', variantId: 'machine' });
+  });
+
   it('selection defaults to the latest logged entry and keeps a valid choice', () => {
     const ctx = buildContext(data(history()));
     expect(resolveSelection(ctx, {})).toEqual({ exerciseId: 'chest', variantId: 'bench' });

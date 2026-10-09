@@ -240,9 +240,16 @@ export interface Selection {
 
 const archivedLabel = (name: string, archived: boolean) => (archived ? `${name} (archived)` : name);
 
+/** Logged entries whose exercise and variant are known (the ones detail can show). */
+function knownEntries(ctx: ProgressContext): LogEntry[] {
+  return ctx.logged.filter((e) =>
+    ctx.exerciseById.get(e.exerciseId)?.variants.some((v) => v.id === e.variantId),
+  );
+}
+
 /** Exercises with logged history (archived ones labelled), by name. */
 export function exerciseOptions(ctx: ProgressContext): Option[] {
-  const ids = new Set(ctx.logged.map((e) => e.exerciseId));
+  const ids = new Set(knownEntries(ctx).map((e) => e.exerciseId));
   return ctx.exercises
     .filter((e) => ids.has(e.id))
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -272,7 +279,7 @@ export function resolveSelection(
 ): Selection | null {
   const exercises = exerciseOptions(ctx);
   if (exercises.length === 0) return null;
-  const latest = ctx.logged.filter((e) => ctx.exerciseById.has(e.exerciseId)).at(-1);
+  const latest = knownEntries(ctx).at(-1);
   const exerciseId = exercises.some((o) => o.value === wanted.exerciseId)
     ? wanted.exerciseId!
     : (latest?.exerciseId ?? exercises[0].value);
