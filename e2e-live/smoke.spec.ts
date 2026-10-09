@@ -16,6 +16,12 @@ async function openCurrentBuild(page: Page) {
 
 async function shot(page: Page, name: string) {
   await page.screenshot({ path: test.info().outputPath(`${name}.png`) });
+  // The iPhone (WebKit) views are also printed to the job log as small JPEGs,
+  // so they can be reviewed from the run log without downloading artifacts.
+  if (test.info().project.name === 'webkit-iphone') {
+    const jpeg = await page.screenshot({ type: 'jpeg', quality: 60, scale: 'css' });
+    console.log(`LIVE_SCREENSHOT ${name} ${jpeg.toString('base64')}`);
+  }
 }
 
 test('live site: installable, offline-ready, and usable end to end', async ({
