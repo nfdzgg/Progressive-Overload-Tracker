@@ -258,6 +258,8 @@ describe('Exercise page', () => {
   it('deletes an exercise without history after a confirmation', async () => {
     const curl = await open('Hammer curl');
     const button = await screen.findByRole('button', { name: 'Delete exercise' });
+    // The button stays disabled until the history check has loaded.
+    await waitFor(() => expect(button).toBeEnabled());
     await userEvent.click(button);
     const dialog = screen.getByRole('alertdialog', { name: 'Delete Hammer curl?' });
     expect(dialog).toHaveTextContent('no logged history, so it is deleted for good');

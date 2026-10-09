@@ -162,10 +162,15 @@ describe('more menu', () => {
     await user.click(within(sheet()).getByRole('button', { name: 'Swap for today' }));
 
     // The library, without the exercise being performed.
-    expect(within(sheet()).getByRole('heading', { name: 'Instead of Chest press' })).toBeVisible();
-    const options = within(sheet()).getByRole('list', { name: 'Exercises' });
+    expect(
+      await within(sheet()).findByRole('heading', { name: 'Instead of Chest press' }),
+    ).toBeVisible();
+    // The picker lists the library from a live query; wait for it to load.
+    const options = await within(sheet()).findByRole('list', { name: 'Exercises' });
+    await waitFor(() =>
+      expect(within(options).getAllByRole('button')).toHaveLength(byName.size - 1),
+    );
     expect(within(options).queryByRole('button', { name: /^Chest press/ })).not.toBeInTheDocument();
-    expect(within(options).getAllByRole('button')).toHaveLength(byName.size - 1);
     await user.click(within(options).getByRole('button', { name: /^Leg press/ }));
 
     const legPress = await screen.findByRole('article', { name: 'Leg press' });
@@ -182,8 +187,10 @@ describe('more menu', () => {
 
     // Swapping back discards the logged numbers, so it asks first.
     await user.click(within(legPress).getByRole('button', { name: /^More for / }));
-    await user.click(within(sheet()).getByRole('button', { name: 'Swap back to Chest press' }));
-    const confirm = screen.getByRole('alertdialog');
+    await user.click(
+      await within(sheet()).findByRole('button', { name: 'Swap back to Chest press' }),
+    );
+    const confirm = await screen.findByRole('alertdialog');
     expect(confirm).toHaveTextContent('The numbers entered for Leg press are discarded.');
     await user.click(within(confirm).getByRole('button', { name: 'Swap' }));
     expect(await screen.findByRole('article', { name: 'Chest press' })).toBeInTheDocument();
@@ -197,9 +204,9 @@ describe('more menu', () => {
     await waitFor(async () => expect(await db.entries.count()).toBe(1));
     await user.click(inCard('Chest press').getByRole('button', { name: /^More for / }));
     await user.click(within(sheet()).getByRole('button', { name: 'Swap for today' }));
-    await user.click(within(sheet()).getByRole('button', { name: /^Row/ }));
+    await user.click(await within(sheet()).findByRole('button', { name: /^Row/ }));
     await user.click(
-      within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Cancel' }),
+      within(await screen.findByRole('alertdialog')).getByRole('button', { name: 'Cancel' }),
     );
     expect(inCard('Chest press').getByLabelText('Set 1 reps')).toHaveValue('8');
     expect((await db.entries.toArray())[0].sets[0].reps).toBe(8);
