@@ -8,3 +8,5 @@ blob-report
 *.local
 .DS_Store
 .vite
+ios-install-check/build
+ios-install-check/*.xcodeproj
