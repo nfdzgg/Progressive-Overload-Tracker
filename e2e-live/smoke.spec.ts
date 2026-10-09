@@ -31,6 +31,17 @@ test('live site serves the current build and is installable', async ({ page, req
   await expect(page.getByRole('heading', { level: 1, name: 'Push' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Chest press' })).toBeVisible();
 
+  // Filling set 1 and leaving the field starts the rest timer above the tab bar.
+  await page.getByRole('textbox', { name: 'Set 1' }).first().fill('10');
+  await page.getByRole('textbox', { name: 'Set 2' }).first().focus();
+  await expect(page.getByRole('button', { name: /Rest timer, Chest press/ })).toBeVisible();
+
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  await nav.getByRole('link', { name: 'Calendar' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Calendar' })).toBeVisible();
+  await nav.getByRole('link', { name: 'Progress' }).click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Progress' })).toBeVisible();
+
   // Settings has the routine and the data section.
   await page
     .getByRole('navigation', { name: 'Main' })

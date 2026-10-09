@@ -55,3 +55,33 @@ describe('ConfirmDialog', () => {
     expect(onCancel).toHaveBeenCalledOnce();
   });
 });
+
+describe('stacked overlays', () => {
+  it('Escape closes only the topmost overlay (a confirm dialog opened above a sheet)', async () => {
+    const onSheetClose = vi.fn();
+    const onCancel = vi.fn();
+    const ui = (dialogOpen: boolean) => (
+      <Sheet open title="Day" onClose={onSheetClose}>
+        <p>entries</p>
+        <ConfirmDialog
+          open={dialogOpen}
+          title="Delete entry?"
+          message="This cannot be undone."
+          confirmLabel="Delete"
+          tone="destructive"
+          onConfirm={() => {}}
+          onCancel={onCancel}
+        />
+      </Sheet>
+    );
+    const { rerender } = render(ui(false));
+    rerender(ui(true));
+    await userEvent.keyboard('{Escape}');
+    expect(onCancel).toHaveBeenCalledOnce();
+    expect(onSheetClose).not.toHaveBeenCalled();
+    // With the dialog closed, Escape reaches the sheet again.
+    rerender(ui(false));
+    await userEvent.keyboard('{Escape}');
+    expect(onSheetClose).toHaveBeenCalledOnce();
+  });
+});
