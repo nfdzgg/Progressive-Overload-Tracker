@@ -21,9 +21,9 @@ Updated at every commit to `main`.
 ### Phase 2 — Vertical slices
 | Slice | Branch | Status |
 |---|---|---|
-| S1 Today | `slice/today` (worktree `/home/user/wt-today`) | **merged** (`6757076`); reviewed against 5.1, 5.3, 5.5, 6.2; extension API for S6 in `features/today/extensions.ts`; full suite green after merge (319 unit, 24 e2e); checked at 390×844 |
-| S2 Settings | `slice/settings` (worktree `/home/user/wt-settings`) | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
-| S3 Backup | `slice/backup` (worktree `/home/user/wt-backup`) | **merged** (`81ee4f1`); reviewed against 6.1, 6.6 Data; the first agent stalled after drafting and was replaced by a second agent that reviewed, fixed, verified, and committed the draft; full suite green after merge (380 unit, 31 e2e); checked at 390×844 |
+| S1 Today | `slice/today` | **merged** (`6757076`); reviewed against 5.1, 5.3, 5.5, 6.2; extension API for S6 in `features/today/extensions.ts`; full suite green after merge (319 unit, 24 e2e); checked at 390×844 |
+| S2 Settings | `slice/settings` | **merged** (`1315f8c`); reviewed against 4.1, 4.3, 6.6; full suite green after merge (265 unit, 16 e2e) |
+| S3 Backup | `slice/backup` | **merged** (`81ee4f1`); reviewed against 6.1, 6.6 Data; the first agent stalled after drafting and was replaced by a second agent that reviewed, fixed, verified, and committed the draft; full suite green after merge (380 unit, 31 e2e); checked at 390×844 |
 | Wave 1 deploy + live smoke test | — | **done** — Deploy run #9 (`975ffbe`): CI, deploy, and live smoke (first run → template → Today shows Push cards → Settings Routine + Data) all green |
 | S4 Calendar | `slice/calendar` | **merged** (`d4f9b23`); reviewed against 5.2, 6.4; full suite green after merge (530 unit, 46 e2e); checked at 390×844 and 320px |
 | S5 Progress | `slice/progress` | **merged** (`bd71c17`); reviewed against 5.4–5.7, 6.5; all numbers from domain functions; full suite green after merge (472 unit, 41 e2e); checked at 390×844 and 1280px |
@@ -60,7 +60,7 @@ Updated at every commit to `main`.
 ## Branches
 - `main` — integration branch, deployed to GitHub Pages.
 - `claude/ecstatic-carson-w5p9o7` — session branch, kept in sync with `main`.
-- `slice/<name>` — one local branch + git worktree per Phase 2 slice, merged into `main` one at a time after review.
+- `slice/<name>` — one local branch + git worktree per Phase 2 slice, merged into `main` one at a time after review with `--no-ff`, so each slice's commits and its merge commit are in `main`'s history. The worktrees were removed after merging.
 
 Live URL: https://nfdzgg.github.io/Progressive-Overload-Tracker/
 
