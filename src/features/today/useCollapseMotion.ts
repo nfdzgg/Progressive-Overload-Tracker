@@ -1,5 +1,13 @@
 import { useLayoutEffect, useRef, type RefObject } from 'react';
 
+/** A CSS time ("180ms", or ".18s" after minification) in milliseconds; 0 if unreadable. */
+export function parseDurationMs(value: string): number {
+  const match = /^(\d*\.?\d+)(ms|s)$/.exec(value.trim());
+  if (!match) return 0;
+  const amount = Number(match[1]);
+  return match[2] === 's' ? amount * 1000 : amount;
+}
+
 /**
  * Animates a card's height when it collapses to its done state (or reopens).
  * Duration and easing come from the motion tokens, so reduced motion (which
@@ -20,7 +28,7 @@ export function useCollapseMotion(ref: RefObject<HTMLElement | null>, collapsed:
     lastCollapsed.current = collapsed;
     if (before === null || before === height || typeof el.animate !== 'function') return;
     const style = getComputedStyle(el);
-    const duration = parseFloat(style.getPropertyValue('--motion-duration')) || 0;
+    const duration = parseDurationMs(style.getPropertyValue('--motion-duration'));
     if (duration <= 0) return;
     const easing = style.getPropertyValue('--motion-ease').trim() || 'ease-out';
     el.animate(

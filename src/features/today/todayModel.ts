@@ -77,10 +77,11 @@ function formFromPrefill(exercise: Exercise, variantId: string, prefill: Prefill
 }
 
 /**
- * The inputs when a card opens: an entry's typed values (a draft, or a
- * reopened logged entry), otherwise the prefill for the chosen variant.
+ * The inputs until the card is edited here: an entry's typed values (a draft,
+ * or a reopened logged entry), otherwise the prefill for the chosen variant.
+ * Derived from live data, so it follows edits made elsewhere.
  */
-export function initialForm(
+export function untouchedForm(
   exercise: Exercise,
   entry: LogEntry | undefined,
   unit: Unit,
@@ -89,6 +90,16 @@ export function initialForm(
   if (entry && !isBlankEntry(entry)) return formFromEntry(exercise, entry, unit);
   const variantId = pickVariantId(exercise, entry?.variantId);
   return formFromPrefill(exercise, variantId, prefillFor(variantId));
+}
+
+/** Keeps one field per configured set (the set count can change in Settings). */
+export function fitForm(form: CardForm, exercise: Exercise): CardForm {
+  if (form.reps.length === exercise.sets && form.setWeights.length === exercise.sets) return form;
+  return {
+    ...form,
+    setWeights: fit(form.setWeights, exercise.sets, ''),
+    reps: fit(form.reps, exercise.sets, ''),
+  };
 }
 
 /** Switching the chip swaps the prefilled weight to that variant; typed reps stay. */

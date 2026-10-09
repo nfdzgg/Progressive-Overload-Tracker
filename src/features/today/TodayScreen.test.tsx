@@ -15,6 +15,7 @@ import {
   restartCycleOnMonday,
   saveCycleItems,
   saveDraft,
+  updateExercise,
   wipeAllData,
 } from '../../data';
 import { addDays, todayISO, type SetLog } from '../../domain';
@@ -204,6 +205,40 @@ describe('drafts', () => {
   });
 });
 
+describe('live data', () => {
+  it('untouched cards follow new history and set counts without a reload', async () => {
+    const { exercise } = await routine();
+    renderToday();
+    await screen.findByRole('heading', { level: 1, name: 'Push' });
+    expect(inCard('Chest press').getByLabelText('Weight')).toHaveValue('');
+
+    await seedHistory(3, [
+      { exercise: 'Chest press', variant: 'Machine', weight: 100, sets: reps(10, 9) },
+    ]);
+    await waitFor(() => expect(inCard('Chest press').getByLabelText('Weight')).toHaveValue('100'));
+    expect(inCard('Chest press').getByLabelText('Set 1 reps')).toHaveAttribute('placeholder', '10');
+
+    await updateExercise(exercise('Chest press').id, { sets: 3 });
+    expect(await inCard('Chest press').findByLabelText('Set 3 reps')).toHaveAttribute(
+      'placeholder',
+      'Set 3',
+    );
+  });
+
+  it('an edited card keeps what was typed when the set count changes', async () => {
+    const { exercise } = await routine();
+    const user = userEvent.setup();
+    renderToday();
+    await screen.findByRole('heading', { level: 1, name: 'Push' });
+    await user.type(inCard('Chest press').getByLabelText('Weight'), '90');
+    await user.type(inCard('Chest press').getByLabelText('Set 1 reps'), '7');
+    await updateExercise(exercise('Chest press').id, { sets: 3 });
+    expect(await inCard('Chest press').findByLabelText('Set 3 reps')).toHaveValue('');
+    expect(inCard('Chest press').getByLabelText('Weight')).toHaveValue('90');
+    expect(inCard('Chest press').getByLabelText('Set 1 reps')).toHaveValue('7');
+  });
+});
+
 describe('reference and target per variant', () => {
   it('chips swap the reference line, target, prefill, and placeholders', async () => {
     await seedHistory(3, [
@@ -214,8 +249,7 @@ describe('reference and target per variant', () => {
     renderToday();
     await screen.findByRole('heading', { level: 1, name: 'Push' });
     const chest = inCard('Chest press');
-    expect(chest.getByText('Last: 100 lb × 10, 9')).toBeInTheDocument();
-    expect(chest.getByText('· Beat: +1 rep')).toBeInTheDocument();
+    expect(chest.getByText('Last: 100 lb × 10, 9 · Beat: +1 rep')).toBeInTheDocument();
     expect(chest.getByLabelText('Weight')).toHaveValue('100');
     expect(chest.getByLabelText('Set 1 reps')).toHaveValue('');
     expect(chest.getByLabelText('Set 1 reps')).toHaveAttribute('placeholder', '10');
@@ -262,7 +296,7 @@ describe('reference and target per variant', () => {
     await db.sessions.update(sessions[1].id, { deload: true });
     renderToday();
     await screen.findByRole('heading', { level: 1, name: 'Push' });
-    expect(inCard('Chest press').getByText('Last: 100 lb × 10, 9')).toBeInTheDocument();
+    expect(inCard('Chest press').getByText(/^Last: 100 lb × 10, 9/)).toBeInTheDocument();
   });
 });
 

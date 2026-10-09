@@ -6,7 +6,8 @@ import {
   canLog,
   entryValues,
   finishedRows,
-  initialForm,
+  fitForm,
+  untouchedForm,
   isBlankEntry,
   pendingSlotCount,
   pickVariantId,
@@ -48,9 +49,9 @@ describe('variants', () => {
   });
 });
 
-describe('initial form', () => {
+describe('untouched form', () => {
   it('without an entry: default variant, prefilled weight, empty reps', () => {
-    const form = initialForm(chestPress(), undefined, 'lb', () => ({
+    const form = untouchedForm(chestPress(), undefined, 'lb', () => ({
       weight: '100',
       setWeights: ['', ''],
       repPlaceholders: ['10', '9'],
@@ -65,7 +66,7 @@ describe('initial form', () => {
 
   it('asks for the prefill of the chosen variant', () => {
     const asked: string[] = [];
-    initialForm(chestPress(), undefined, 'lb', (variantId) => {
+    untouchedForm(chestPress(), undefined, 'lb', (variantId) => {
       asked.push(variantId);
       return EMPTY_PREFILL;
     });
@@ -80,7 +81,7 @@ describe('initial form', () => {
       reps: [10, null],
       status: 'draft',
     });
-    const form = initialForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL);
+    const form = untouchedForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL);
     expect(form).toEqual({
       variantId: 'v-bench',
       weight: '102.5',
@@ -91,19 +92,19 @@ describe('initial form', () => {
 
   it('converts a draft typed in another unit for display', () => {
     const entry = makeEntry({ unit: 'kg', weight: 50, reps: [8, 8], status: 'draft' });
-    expect(initialForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL).weight).toBe('110');
+    expect(untouchedForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL).weight).toBe('110');
   });
 
   it('a draft with bodyweight keeps the weight empty', () => {
     const entry = makeEntry({ weight: null, reps: [12, null], status: 'draft' });
-    expect(initialForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL).weight).toBe('');
+    expect(untouchedForm(chestPress(), entry, 'lb', () => EMPTY_PREFILL).weight).toBe('');
   });
 
   it('pads or trims the sets to the exercise set count', () => {
     const three = makeEntry({ reps: [10, 9, 8], status: 'draft' });
-    expect(initialForm(chestPress(), three, 'lb', () => EMPTY_PREFILL).reps).toEqual(['10', '9']);
+    expect(untouchedForm(chestPress(), three, 'lb', () => EMPTY_PREFILL).reps).toEqual(['10', '9']);
     const one = makeEntry({ reps: [10], status: 'draft' });
-    expect(initialForm(chestPress({ sets: 3 }), one, 'lb', () => EMPTY_PREFILL).reps).toEqual([
+    expect(untouchedForm(chestPress({ sets: 3 }), one, 'lb', () => EMPTY_PREFILL).reps).toEqual([
       '10',
       '',
       '',
@@ -113,12 +114,12 @@ describe('initial form', () => {
   it('per-set weight: each set gets its own weight (falling back to the entry weight)', () => {
     const ex = chestPress({ perSetWeight: true });
     const entry = makeEntry({ weight: null, reps: [12, 10], setWeights: [10, null] });
-    expect(initialForm(ex, entry, 'lb', () => EMPTY_PREFILL)).toMatchObject({
+    expect(untouchedForm(ex, entry, 'lb', () => EMPTY_PREFILL)).toMatchObject({
       setWeights: ['10', ''],
       reps: ['12', '10'],
     });
     const legacy = makeEntry({ weight: 20, reps: [12, 10] });
-    expect(initialForm(ex, legacy, 'lb', () => EMPTY_PREFILL).setWeights).toEqual(['20', '20']);
+    expect(untouchedForm(ex, legacy, 'lb', () => EMPTY_PREFILL).setWeights).toEqual(['20', '20']);
   });
 
   it('a blank entry (swap or reopened skip) uses the prefill for its variant', () => {
@@ -132,13 +133,30 @@ describe('initial form', () => {
       status: 'draft',
     });
     expect(isBlankEntry(entry)).toBe(true);
-    const form = initialForm(chestPress(), entry, 'lb', (variantId) => ({
+    const form = untouchedForm(chestPress(), entry, 'lb', (variantId) => ({
       ...EMPTY_PREFILL,
       weight: variantId === 'v-bench' ? '135' : '100',
     }));
     expect(form).toMatchObject({ variantId: 'v-bench', weight: '135', reps: ['', ''] });
     expect(isBlankEntry(makeEntry({ weight: null, sets: [] }))).toBe(true);
     expect(isBlankEntry(makeEntry({ weight: 100, reps: [null, null] }))).toBe(false);
+  });
+});
+
+describe('set count changes', () => {
+  it('an edited form follows the exercise set count, keeping what was typed', () => {
+    const form = { variantId: 'v', weight: '100', setWeights: ['', ''], reps: ['10', '9'] };
+    expect(fitForm(form, chestPress({ sets: 3 }))).toEqual({
+      ...form,
+      setWeights: ['', '', ''],
+      reps: ['10', '9', ''],
+    });
+    expect(fitForm(form, chestPress({ sets: 1 }))).toEqual({
+      ...form,
+      setWeights: [''],
+      reps: ['10'],
+    });
+    expect(fitForm(form, chestPress())).toBe(form);
   });
 });
 

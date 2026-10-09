@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useId, useRef, useState, type ReactNode } from 'react';
+import { Fragment, useId, useRef, useState, type ReactNode } from 'react';
 import { logEntry, reopenEntry, saveDraft, type EntryInput, type LogResult } from '../../data';
 import {
   computeTarget,
@@ -28,7 +28,8 @@ import {
   activeVariants,
   canLog,
   entryValues,
-  initialForm,
+  fitForm,
+  untouchedForm,
   pickVariantId,
   repPlaceholder,
   targetLabel,
@@ -163,25 +164,28 @@ function CardEditor(props: ContentProps) {
   const hasActions = extensions.CardHeaderActions !== undefined;
   const sessionId = session?.id;
 
-  const referenceFor = useCallback(
-    (variantId: string) =>
-      findReference(data.entries, data.sessionsById, exercise.id, variantId, {
-        excludeSessionId: sessionId,
-      }),
-    [data.entries, data.sessionsById, exercise.id, sessionId],
-  );
+  // The session being logged is never its own reference.
+  const referenceFor = (variantId: string) =>
+    findReference(data.entries, data.sessionsById, exercise.id, variantId, {
+      excludeSessionId: sessionId,
+    });
   const prefillFor = (variantId: string) =>
     prefillFromReference(referenceFor(variantId), exercise, data.unit);
 
-  // Local input state, so typing never jumps while drafts save in the background.
-  const [form, setForm] = useState<CardForm>(() =>
-    initialForm(exercise, entry, data.unit, prefillFor),
-  );
-  const formRef = useRef(form);
+  // Until the card is edited here, the inputs follow live data (the draft or
+  // the prefill). After the first edit, local state wins, so typing never
+  // jumps while drafts save in the background.
+  const [edited, setEdited] = useState<CardForm | null>(null);
+  const editedRef = useRef<CardForm | null>(null);
   const queue = useRef<Promise<void>>(Promise.resolve());
   const hasDraft = useRef(entry !== undefined);
   const closed = useRef(false);
   const valueOnFocus = useRef<string | null>(null);
+
+  const untouched = untouchedForm(exercise, entry, data.unit, prefillFor);
+  const form = fitForm(edited ?? untouched, exercise);
+  /** The newest inputs, for handlers that run before the next render. */
+  const latest = () => fitForm(editedRef.current ?? untouched, exercise);
 
   const variants = activeVariants(exercise);
   const variantId = pickVariantId(exercise, form.variantId);
@@ -213,8 +217,8 @@ function CardEditor(props: ContentProps) {
   }
 
   function setLocal(next: CardForm) {
-    formRef.current = next;
-    setForm(next);
+    editedRef.current = next;
+    setEdited(next);
   }
 
   /** Typing saves a draft immediately, so closing the app loses nothing. */
@@ -224,24 +228,26 @@ function CardEditor(props: ContentProps) {
     hasDraft.current = true;
     enqueue(async () => {
       const current = await ensureSession();
-      await saveDraft(toInput(current.id, formRef.current));
+      await saveDraft(toInput(current.id, latest()));
     }).catch((error: unknown) => console.error(error));
   }
 
   function changeVariant(id: string) {
-    const next = withVariant(formRef.current, exercise, id, prefillFor(id));
+    const next = withVariant(latest(), exercise, id, prefillFor(id));
+    // Only an existing draft records the variant; a chip tap alone starts nothing.
     if (hasDraft.current || entry) update(next);
     else setLocal(next);
   }
 
   async function log() {
-    if (closed.current || !canLog(formRef.current)) return;
+    const values = latest();
+    if (closed.current || !canLog(values)) return;
     closed.current = true;
     let result: LogResult;
     try {
       result = await enqueue(async () => {
         const current = await ensureSession();
-        return logEntry(toInput(current.id, formRef.current), data.today);
+        return logEntry(toInput(current.id, values), data.today);
       });
     } catch (error) {
       closed.current = false;
@@ -256,8 +262,9 @@ function CardEditor(props: ContentProps) {
     });
   }
 
+  /** A reps field other than the last was filled (changed while focused) and lost focus. */
   function commitSet(index: number) {
-    const value = formRef.current.reps[index] ?? '';
+    const value = latest().reps[index] ?? '';
     const changed = value !== valueOnFocus.current;
     valueOnFocus.current = null;
     if (index >= exercise.sets - 1 || !changed || (parseNumberText(value) ?? 0) <= 0) return;
@@ -265,9 +272,10 @@ function CardEditor(props: ContentProps) {
   }
 
   const setField = (key: 'reps' | 'setWeights', index: number, value: string) => {
-    const values = [...formRef.current[key]];
+    const current = latest();
+    const values = [...current[key]];
     values[index] = value;
-    update({ ...formRef.current, [key]: values });
+    update({ ...current, [key]: values });
   };
 
   const perSet = exercise.perSetWeight;
@@ -301,12 +309,11 @@ function CardEditor(props: ContentProps) {
       )}
       {reference ? (
         <Text as="p" variant="body-sm" tone="muted" className={styles.reference}>
-          <span>Last: {formatEntrySummary(reference, data.unit)}</span>
-          {target.kind === 'addWeight' ? (
-            <Badge tone="success">{targetText}</Badge>
-          ) : (
-            <span>· {targetText}</span>
-          )}
+          <span>
+            Last: {formatEntrySummary(reference, data.unit)}
+            {target.kind === 'beat' && ` · ${targetText}`}
+          </span>
+          {target.kind === 'addWeight' && <Badge tone="success">{targetText}</Badge>}
         </Text>
       ) : (
         <Text as="p" variant="body-sm" tone="tertiary">
@@ -321,7 +328,7 @@ function CardEditor(props: ContentProps) {
             mode="decimal"
             unit={data.unit}
             value={form.weight}
-            onValueChange={(value) => update({ ...formRef.current, weight: value })}
+            onValueChange={(value) => update({ ...latest(), weight: value })}
           />
         )}
         {form.reps.map((reps, i) => (
@@ -338,13 +345,14 @@ function CardEditor(props: ContentProps) {
               />
             )}
             <NumberInput
+              className={perSet ? undefined : styles.reps}
               label={`Set ${i + 1} reps`}
               placeholder={repPlaceholder(prefill, i)}
               mode="numeric"
               value={reps}
               onValueChange={(value) => setField('reps', i, value)}
               onFocus={() => {
-                valueOnFocus.current = formRef.current.reps[i] ?? '';
+                valueOnFocus.current = latest().reps[i] ?? '';
               }}
               onBlur={() => commitSet(i)}
             />

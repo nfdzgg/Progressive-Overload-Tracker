@@ -8,22 +8,29 @@
 }
 
 /*
- * Input row: equal columns that wrap when the sets do not fit. The weight
- * field spans two columns because it carries the unit; Log sits in the last
- * column, at the end of the (last) row.
+ * Input row: weight, one equal field per set, then Log at the end of the row.
+ * Fields wrap to more rows when the sets do not fit. The weight field starts
+ * a little wider because it carries the unit; set fields stop growing so a
+ * wrapped row keeps them the same size, and Log stays at the row's end.
  */
 .row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--number-input-min-width), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-xs);
 }
 
 .weight {
-  grid-column: span 2;
+  flex: 1 1 calc(var(--number-input-min-width) * 1.75);
+}
+
+.reps {
+  flex: 1 1 var(--number-input-min-width);
+  max-width: calc(var(--number-input-min-width) * 1.5);
 }
 
 .log {
-  grid-column: -2 / -1;
+  flex: none;
+  margin-left: auto;
 }
 
 /* Per-set weight: one row per set (weight next to reps), Log after the last set. */
