@@ -1,3 +1,2 @@
-// Placeholder from the foundation phase. Slice S5 replaces this folder.
-// Contract: export `ProgressScreen`.
+// Slice S5 Progress. Contract: export `ProgressScreen` (routed at /progress/*).
 export { ProgressScreen } from './ProgressScreen';
