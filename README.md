@@ -19,10 +19,12 @@ The app is a PWA: install it once and it opens full screen, without browser chro
 
 ### iPhone / iPad (Safari)
 
+There is no install button inside the app: iPhone installs web apps from Safari's own menu.
+
 1. Open https://nfdzgg.github.io/Progressive-Overload-Tracker/ in **Safari** (other iOS browsers cannot install web apps on older iOS versions).
-2. Tap the **Share** button (square with an arrow).
-3. Scroll down and tap **Add to Home Screen**, then **Add**.
-4. Open **Overload** from your home screen.
+2. Tap **Share** (square with an arrow). On iOS 26, tap **•••** next to the address bar first, then **Share**.
+3. Scroll down (on iOS 26, tap **View More**) and tap **Add to Home Screen**. Leave **Open as Web App** on if you see it, then tap **Add**.
+4. Open **Overload** from your home screen. It opens full screen, without Safari's address bar.
 
 ### Android (Chrome)
 

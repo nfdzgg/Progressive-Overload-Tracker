@@ -16,7 +16,8 @@ describe('About', () => {
     Object.assign(status, { updated: false, updateWaiting: false });
     render(<AboutSection />);
     expect(screen.getByText('9.8.7 (abc1234)')).toBeInTheDocument();
-    expect(screen.getByText(/iPhone: open the app in Safari/)).toBeInTheDocument();
+    expect(screen.getByText(/iPhone: in Safari, tap Share/)).toBeInTheDocument();
+    expect(screen.getByText(/On iOS 26, Share is in the ••• menu/)).toBeInTheDocument();
     expect(screen.getByText(/install icon in the address bar/)).toBeInTheDocument();
     expect(screen.queryByText('Updated')).not.toBeInTheDocument();
     expect(screen.queryByText(/Update ready/)).not.toBeInTheDocument();

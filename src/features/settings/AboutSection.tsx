@@ -30,7 +30,7 @@ export function AboutSection() {
           <ListItem>
             <ListRow
               title="Install"
-              detail="iPhone: open the app in Safari, tap Share, then Add to Home Screen. Desktop: use the install icon in the address bar or the browser menu."
+              detail="iPhone: in Safari, tap Share, then Add to Home Screen, then Add. On iOS 26, Share is in the ••• menu and Add to Home Screen is under View More. Desktop: use the install icon in the address bar or the browser menu."
             />
           </ListItem>
         </ListGroup>

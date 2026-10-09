@@ -20,7 +20,11 @@ describe('Settings home', () => {
       .filter((t) => ['Routine', 'Preferences', 'Data', 'About'].includes(t ?? ''));
     expect(labels).toEqual(['Routine', 'Preferences', 'Data', 'About']);
     expect(screen.getByText(new RegExp(APP_VERSION.replace(/\./g, '\\.')))).toBeInTheDocument();
-    expect(screen.getByText(/Safari, tap Share, then Add to Home Screen/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Safari, tap Share, then Add to Home Screen, then Add\. On iOS 26, Share is in the ••• menu and Add to Home Screen is under View More\./,
+      ),
+    ).toBeInTheDocument();
   });
 
   it('opens the routine pages', async () => {
