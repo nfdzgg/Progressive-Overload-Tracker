@@ -62,8 +62,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: npx playwright test --config playwright.live.config.ts
         env:
           LIVE_URL: ${{ needs.deploy.outputs.page_url }}
           EXPECTED_BUILD: ${{ github.sha }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-smoke-screenshots
+          path: test-results/live
+          retention-days: 14
