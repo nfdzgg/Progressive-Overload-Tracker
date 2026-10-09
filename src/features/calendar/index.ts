@@ -1,3 +1,3 @@
-// Placeholder from the foundation phase. Slice S4 replaces this folder.
-// Contract: export `CalendarScreen`.
+// Slice S4 Calendar (SPEC 5.2, 6.4). The app routes `/calendar/*` to
+// `CalendarScreen`.
 export { CalendarScreen } from './CalendarScreen';

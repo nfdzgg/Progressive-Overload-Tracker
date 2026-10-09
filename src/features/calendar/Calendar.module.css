@@ -1,0 +1,65 @@
+/*
+ * Seven equal columns that shrink with the screen (labels truncate inside
+ * the cells), so the page never scrolls sideways at 320px.
+ */
+.grid,
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+/*
+ * Below 360px a column is narrower than the 44px target anyway: the cells
+ * touch (no dead zone between them; only today's cell has a visible edge) so
+ * short labels such as "Push" still fit.
+ */
+@media (max-width: 359px) {
+  .grid,
+  .weekdays {
+    column-gap: 0;
+  }
+}
+
+.weekdays {
+  text-align: center;
+}
+
+.monthTitle {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+}
+
+/* The sheet's current view; focused when switching views, without a ring. */
+.view {
+  outline: none;
+}
+
+/* Destructive actions sit a little apart from the content above them. */
+.destructive {
+  padding-top: var(--space-xs);
+}
+
+/* Editor: weight, then one equal field per set; wraps when sets do not fit. */
+.inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.weight {
+  flex: 1 1 calc(var(--number-input-min-width) * 1.75);
+}
+
+.reps {
+  flex: 1 1 var(--number-input-min-width);
+  max-width: calc(var(--number-input-min-width) * 1.5);
+}
+
+/* Per-set weight: one row per set, weight next to reps. */
+.inputsPerSet {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--space-xs);
+}
