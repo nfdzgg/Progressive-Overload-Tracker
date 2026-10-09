@@ -203,6 +203,7 @@ export function DataSection() {
                 <ListRow
                   title="Import backup"
                   detail="Replaces everything on this device"
+                  destructive
                   onClick={() => backupInput.current?.click()}
                 />
               </ListItem>
@@ -224,6 +225,7 @@ export function DataSection() {
                 <ListRow
                   title="Import routine"
                   detail="Matches exercises by name, keeping history"
+                  destructive
                   onClick={() => routineInput.current?.click()}
                 />
               </ListItem>
@@ -257,7 +259,13 @@ export function DataSection() {
       <ConfirmDialog
         open={pending?.kind === 'backup'}
         title="Replace everything?"
-        message={`Importing ${pending?.fileName ?? 'this file'} replaces everything on this device: exercises, workouts, cycle, logs, and settings. This cannot be undone.`}
+        message={
+          <>
+            Importing <span className={styles.fileName}>{pending?.fileName ?? 'this file'}</span>{' '}
+            replaces everything on this device: exercises, workouts, cycle, logs, and settings. This
+            cannot be undone.
+          </>
+        }
         confirmLabel="Replace everything"
         tone="destructive"
         onConfirm={confirmImport}
