@@ -1,0 +1,72 @@
+.card {
+  display: block;
+  min-width: 0;
+  border: var(--border-hairline);
+  transition:
+    background-color var(--motion-duration) var(--motion-ease),
+    color var(--motion-duration) var(--motion-ease);
+}
+
+.exercise {
+  background: var(--exercise-card-bg);
+  color: var(--exercise-card-fg);
+  border-radius: var(--exercise-card-radius);
+  padding: var(--exercise-card-padding);
+}
+
+.exerciseDone {
+  background: var(--exercise-card-done-bg);
+  color: var(--exercise-card-done-fg);
+  border-radius: var(--exercise-card-done-radius);
+  padding: var(--exercise-card-done-padding);
+}
+
+.dashboard {
+  background: var(--dashboard-card-bg);
+  color: var(--dashboard-card-fg);
+  border-radius: var(--dashboard-card-radius);
+  padding: var(--dashboard-card-padding);
+}
+
+.group {
+  background: var(--color-surface-1);
+  color: var(--color-ink);
+  border-radius: var(--radius-lg);
+  padding: 0 var(--space-md);
+}
+
+.dashboardStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.title {
+  flex: 1 1 0;
+  min-width: 0;
+  /* Center the first line against the 44px icon buttons. */
+  padding-top: calc(
+    (var(--tap-target) - var(--type-body-lg-size) * var(--type-body-lg-line-height)) / 2
+  );
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  gap: var(--space-xs);
+  margin-top: calc(var(--space-sm) * -1);
+  margin-right: calc(var(--space-sm) * -1);
+}

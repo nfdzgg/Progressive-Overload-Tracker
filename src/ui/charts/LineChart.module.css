@@ -1,0 +1,82 @@
+.root {
+  position: relative;
+  width: 100%;
+  min-height: var(--chart-height);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.svg {
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--color-hairline);
+  stroke-width: var(--border-width);
+}
+
+.axis {
+  fill: var(--color-ink-subtle);
+  font: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.linePrimary,
+.lineSecondary {
+  fill: none;
+  stroke-width: var(--chart-line-width);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.linePrimary {
+  stroke: var(--color-primary);
+}
+
+.lineSecondary {
+  stroke: var(--color-ink-subtle);
+}
+
+.pointPrimary {
+  fill: var(--color-primary);
+}
+
+.pointSecondary {
+  fill: var(--color-ink-subtle);
+}
+
+.pointPr {
+  fill: var(--color-semantic-success);
+}
+
+.pointMuted {
+  fill: var(--color-canvas);
+  stroke: var(--color-ink-tertiary);
+  stroke-width: var(--chart-line-width);
+}
+
+.pointActive {
+  fill: none;
+  stroke: var(--color-primary-hover);
+  stroke-width: var(--chart-line-width);
+}
+
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - var(--space-xs)));
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xxs) var(--space-xs);
+  border: var(--border-hairline-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-3);
+  color: var(--color-ink);
+  font: var(--type-caption);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltipName {
+  color: var(--color-ink-subtle);
+}

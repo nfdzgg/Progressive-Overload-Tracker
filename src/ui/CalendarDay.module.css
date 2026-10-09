@@ -1,0 +1,56 @@
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xxs);
+  width: 100%;
+  min-width: 0;
+  min-height: var(--calendar-day-height);
+  padding: var(--space-xxs) var(--space-xxs);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--calendar-day-radius);
+  background: var(--calendar-day-bg);
+  color: var(--calendar-day-fg);
+  font: var(--calendar-day-font);
+  letter-spacing: var(--calendar-day-tracking);
+  touch-action: manipulation;
+}
+
+.muted {
+  color: var(--color-ink-tertiary);
+}
+
+.today {
+  background: var(--calendar-day-today-bg);
+  color: var(--calendar-day-today-fg);
+  border: var(--border-hairline-strong);
+}
+
+.outside {
+  visibility: hidden;
+}
+
+.number {
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  max-width: 100%;
+  min-height: calc(var(--type-caption-size) * var(--type-caption-line-height));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: var(--type-caption);
+  letter-spacing: var(--type-caption-tracking);
+}
+
+.dot {
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: var(--radius-xs);
+}
+
+.dotOn {
+  background: var(--color-semantic-success);
+}

@@ -1,0 +1,14 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  padding: var(--space-md) 0;
+}
+
+.action {
+  margin-top: var(--space-sm);
+}
+
+.sectionLabel {
+  padding: 0 0 var(--space-xs);
+}

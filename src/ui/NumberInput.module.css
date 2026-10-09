@@ -1,0 +1,52 @@
+.wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--number-input-height);
+  padding: var(--number-input-padding);
+  border: var(--border-hairline-strong);
+  border-radius: var(--number-input-radius);
+  background: var(--number-input-bg);
+  color: var(--number-input-fg);
+  font: var(--number-input-font);
+  letter-spacing: var(--number-input-tracking);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  appearance: none;
+}
+
+.input::placeholder {
+  color: var(--color-ink-tertiary);
+  opacity: 1;
+}
+
+.input:focus-visible,
+.input:focus {
+  background: var(--number-input-focused-bg);
+  outline: var(--focus-ring);
+  outline-offset: 0;
+}
+
+.withUnit {
+  padding-right: calc(var(--space-sm) + var(--space-lg));
+}
+
+.invalid {
+  border-color: var(--color-semantic-danger);
+}
+
+.unit {
+  position: absolute;
+  top: 50%;
+  right: var(--space-sm);
+  transform: translateY(-50%);
+  color: var(--color-ink-subtle);
+  font: var(--type-caption);
+  pointer-events: none;
+}

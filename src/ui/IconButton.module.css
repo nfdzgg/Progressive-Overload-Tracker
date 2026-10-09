@@ -1,0 +1,41 @@
+.iconButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-ink-subtle);
+  touch-action: manipulation;
+  transition: background-color var(--motion-duration) var(--motion-ease);
+}
+
+.iconButton:active:not(:disabled) {
+  background: var(--color-surface-3);
+  color: var(--color-ink);
+}
+
+@media (hover: hover) {
+  .iconButton:hover:not(:disabled) {
+    color: var(--color-ink);
+  }
+}
+
+.iconButton:disabled {
+  color: var(--color-ink-tertiary);
+}
+
+.marker {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: var(--radius-full);
+  background: var(--color-ink-muted);
+}

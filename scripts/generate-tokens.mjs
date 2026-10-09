@@ -44,6 +44,8 @@ const DERIVED = [
   ],
   ['tap-target', '44px', 'minimum tap target'],
   ['chip-height', '34px', 'chip visual height 32-36px'],
+  ['number-input-min-width', '56px', 'narrowest set field before the input row wraps'],
+  ['dialog-max-width', '360px'],
   ['icon-card', '20px', 'icons in cards'],
   ['icon-tab', '24px', 'icons in the tab bar'],
   ['icon-stroke', '1.5', 'line icons, 1.5px stroke'],

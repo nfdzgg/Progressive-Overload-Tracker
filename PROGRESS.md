@@ -12,7 +12,7 @@ Updated at every commit to `main`.
 ### Phase 1 — Foundation (sequential)
 - [x] 1. Scaffold: Vite, TS strict, ESLint, Prettier, Vitest, Playwright, CI
 - [x] 2. `design/`: tokens.css generated from DESIGN.md (`npm run tokens`, sync test in `scripts/generate-tokens.test.ts`), global styles, bundled fonts
-- [ ] 3. `ui/`: shared components with render tests, `/#/kitchen-sink`
+- [x] 3. `ui/`: shared components with render tests, `/#/kitchen-sink` (checked visually at 390×844)
 - [ ] 4. `domain/`: section 4 types, section 5 rules, test-first
 - [ ] 5. `data/`: Dexie schema, repositories, seed template, backup round-trip
 - [ ] 6. `app/`: shell, four tabs, safe areas, PWA, deploy — live on GitHub Pages
@@ -50,6 +50,8 @@ Updated at every commit to `main`.
 
 ## Decisions on ambiguities
 1. **Tokens beyond the front matter.** Values DESIGN.md states only in prose (44px tap target, 20/24px icons, 56px bars, 480/960px columns, 2px focus ring at 50%, 60% scrim, 150–200ms motion, 1.5px icon stroke) are emitted in a "Derived" block of `tokens.css` so feature code never needs a raw value.
+3. **Shared components beyond the DESIGN.md list.** `ui/` also holds `Text`, `Stack`/`Inline`/`Grow`, `Screen` (top bar + column), `ConfirmDialog`, `TextArea`, `Select` (native, styled as a text input), `ChipGroup` (radio-group chips reused for unit, on/off, and range switches instead of inventing a toggle), `ComparisonBars` (this week vs last week), `EmptyState`, `SectionLabel`, and `Icon`. They exist so feature code needs no raw values.
+4. **Top bar and tab bar live in `ui/`** as presentational components (`TopBar`, `TabBar`); `app/` composes them. Screens render their own `Screen`/`TopBar` so each can set its title, accessory (for example the Deload badge), and single action.
 2. **Font subsets.** Inter is bundled with the latin and latin-ext subsets (400/500/600); JetBrains Mono with latin 400 only (it renders the timer digits). Other scripts fall back to the system font.
 
 ## Open questions

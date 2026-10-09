@@ -1,0 +1,133 @@
+.chart {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-xs);
+  height: var(--chart-height);
+}
+
+.column {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xxs);
+  min-width: 0;
+}
+
+.value,
+.label {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-ink-subtle);
+  font: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.valueCurrent {
+  color: var(--color-ink);
+}
+
+.track {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-end;
+  width: 100%;
+  border-bottom: var(--border-hairline);
+}
+
+.bar {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--color-hairline-tertiary);
+}
+
+.nonZero {
+  min-height: var(--border-width);
+}
+
+.current {
+  background: var(--color-primary);
+}
+
+.comparison {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.legend {
+  display: flex;
+  gap: var(--space-md);
+  color: var(--color-ink-subtle);
+  font: var(--type-caption);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xxs);
+}
+
+.swatch {
+  display: inline-block;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-xs);
+  background: var(--color-hairline-tertiary);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.rowLabel {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-ink-muted);
+  font: var(--type-body-sm);
+}
+
+.hbars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.hline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.hbar {
+  display: block;
+  height: var(--space-xs);
+  border-radius: var(--radius-xs);
+  background: var(--color-hairline-tertiary);
+}
+
+.hbar.current {
+  background: var(--color-primary);
+}
+
+.hvalue {
+  flex: none;
+  color: var(--color-ink);
+  font: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.hvalueMuted {
+  color: var(--color-ink-subtle);
+}
+
+.swatch.current {
+  background: var(--color-primary);
+}

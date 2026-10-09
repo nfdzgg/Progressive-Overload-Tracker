@@ -1,0 +1,49 @@
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-xs);
+  /* Rows sit far enough apart that the 44px hit areas never overlap. */
+  row-gap: var(--space-sm);
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--chip-height);
+  padding: var(--variant-chip-default-padding);
+  border: var(--border-hairline);
+  border-radius: var(--variant-chip-default-radius);
+  background: var(--variant-chip-default-bg);
+  color: var(--variant-chip-default-fg);
+  font: var(--variant-chip-default-font);
+  letter-spacing: var(--variant-chip-default-tracking);
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition:
+    background-color var(--motion-duration) var(--motion-ease),
+    color var(--motion-duration) var(--motion-ease);
+}
+
+/* Extend the hit area to the 44px tap target without changing the look. */
+.chip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc((var(--chip-height) - var(--tap-target)) / 2);
+  bottom: calc((var(--chip-height) - var(--tap-target)) / 2);
+}
+
+.selected {
+  background: var(--variant-chip-selected-bg);
+  color: var(--variant-chip-selected-fg);
+  border: var(--border-hairline-strong);
+}
+
+@media (hover: hover) {
+  .chip:not(.selected):hover {
+    color: var(--color-ink-muted);
+  }
+}

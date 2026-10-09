@@ -1,0 +1,57 @@
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: var(--rest-timer-padding);
+  overflow: hidden;
+  border: var(--border-hairline-strong);
+  border-radius: var(--rest-timer-radius);
+  background: var(--rest-timer-bg);
+  color: var(--rest-timer-fg);
+  box-shadow: var(--edge-highlight);
+  text-align: left;
+  touch-action: manipulation;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--progress-line);
+  background: var(--color-primary);
+  transition: width var(--motion-duration) linear;
+}
+
+.label {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: var(--type-body-sm);
+  letter-spacing: var(--type-body-sm-tracking);
+  color: var(--color-ink-muted);
+}
+
+.countdown {
+  flex: none;
+  font: var(--type-mono);
+  /* The mono countdown may be scaled up; body size keeps it readable. */
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-mono-tracking);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+
+.done {
+  color: var(--color-semantic-success);
+}
+
+.dismiss {
+  display: inline-flex;
+  flex: none;
+  color: var(--color-ink-subtle);
+}

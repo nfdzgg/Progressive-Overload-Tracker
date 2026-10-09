@@ -1,0 +1,13 @@
+.content {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-xs) calc(var(--space-md) + var(--safe-right)) var(--space-xl)
+    calc(var(--space-md) + var(--safe-left));
+}
+
+@media (min-width: 768px) {
+  .wide {
+    max-width: var(--content-max-wide);
+  }
+}
