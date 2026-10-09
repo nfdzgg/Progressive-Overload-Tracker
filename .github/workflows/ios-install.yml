@@ -2,8 +2,9 @@ name: iPhone install
 
 # Acceptance 1 on iPhone: adds the live app to the home screen of an iOS
 # Simulator through the real iOS Safari (Share → Add to Home Screen), opens it
-# from the home screen, and checks it runs standalone. Called by deploy.yml
-# after each deploy; screenshots are printed to the job log.
+# from the home screen, and checks it runs standalone. Runs on iOS 18 (Share in
+# the toolbar) and iOS 26 (Share behind •••). Called by deploy.yml after each
+# deploy; screenshots are printed to the job log.
 on:
   workflow_call:
   workflow_dispatch:
@@ -13,8 +14,16 @@ permissions:
 
 jobs:
   install:
-    name: Add to Home Screen on iPhone (iOS Simulator)
-    runs-on: macos-15
+    name: Add to Home Screen on iPhone (${{ matrix.ios }}, iOS Simulator)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ios: iOS 18
+            runner: macos-15
+          - ios: iOS 26
+            runner: macos-26
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
@@ -27,6 +36,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: iphone-install-check
+          name: iphone-install-check-${{ matrix.runner }}
           path: ios-install-check/build/InstallCheck.xcresult
           retention-days: 14

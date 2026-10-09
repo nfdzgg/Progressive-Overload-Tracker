@@ -36,20 +36,33 @@ final class AddToHomeScreenTests: XCTestCase {
 
         // 2. Share → Add to Home Screen → Add.
         if tapFirst(["Share", "ShareButton"], in: safari, timeout: 10) == nil {
-            // Newer Safari layouts keep Share behind the "…" menu.
+            // iOS 26 Safari keeps Share behind the "•••" button.
+            shot("2a-safari-toolbar")
             try require(
-                tapFirst(["More", "MoreButton", "Page Menu", "PageFormatMenuButton"], in: safari) != nil,
+                tapFirst(
+                    ["More", "MoreButton", "More options", "Page Menu", "PageFormatMenuButton", "Menu"],
+                    in: safari) != nil,
                 "Safari shows no Share or More button", safari)
+            sleep(1)
+            shot("2b-safari-menu")
             if firstHittable(["Add to Home Screen"], in: safari) == nil {
                 try require(
                     tapFirst(["Share", "ShareButton"], in: safari) != nil,
                     "Safari's menu has no Share", safari)
             }
         }
+        sleep(1)
+        shot("2c-share-sheet")
         var addToHomeScreen: XCUIElement?
         for _ in 0..<6 {
             addToHomeScreen = firstHittable(["Add to Home Screen"], in: safari)
             if addToHomeScreen != nil { break }
+            // Newer share sheets list a few actions and hide the rest behind View More.
+            if let viewMore = firstHittable(["View More", "Show More", "More Actions"], in: safari) {
+                viewMore.tap()
+                sleep(1)
+                continue
+            }
             // The share sheet opens at half height; drag it up to reveal its actions.
             safari.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.8))
                 .press(
