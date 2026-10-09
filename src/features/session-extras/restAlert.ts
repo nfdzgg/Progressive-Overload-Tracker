@@ -104,6 +104,13 @@ export function createRestAlert(deps: RestAlertDeps): RestAlert {
 
 function createAudioElement(): AudioLike | null {
   if (typeof Audio === 'undefined') return null;
+  try {
+    // Safari's Audio Session API: a short sound ducks the user's music instead of stopping it.
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) session.type = 'transient';
+  } catch {
+    // Not supported.
+  }
   const audio = new Audio(REST_DONE_SOUND_URL);
   audio.preload = 'auto';
   return audio;
