@@ -7,10 +7,10 @@ Updated at every commit to `main`.
 
 ### Repo setup
 - [x] Rename uploaded `SPEC (3).md` / `DESIGN (2).md` to `SPEC.md` / `DESIGN.md`
-- [ ] Vite `base` set to the repo name, deploy workflow added
+- [x] Vite `base` set to the repo name (`/Progressive-Overload-Tracker/`), deploy workflow added (`.github/workflows/deploy.yml`)
 
 ### Phase 1 — Foundation (sequential)
-- [ ] 1. Scaffold: Vite, TS strict, ESLint, Prettier, Vitest, Playwright, CI
+- [x] 1. Scaffold: Vite, TS strict, ESLint, Prettier, Vitest, Playwright, CI
 - [ ] 2. `design/`: tokens.css generated from DESIGN.md, global styles, bundled fonts
 - [ ] 3. `ui/`: shared components with render tests, `/#/kitchen-sink`
 - [ ] 4. `domain/`: section 4 types, section 5 rules, test-first
@@ -43,6 +43,10 @@ Updated at every commit to `main`.
 
 ## Deviations from the spec (with reasons)
 1. **Spec file names.** The upload named the files `SPEC (3).md` and `DESIGN (2).md`; renamed to `SPEC.md` and `DESIGN.md` to match the layout in SPEC 9.1.
+2. **Deploy workflow added in step 1, not step 6.** The task instructions asked for the base path and deploy workflow first. `deploy.yml` runs the full CI (reused from `ci.yml`), builds, deploys to Pages, then smoke-tests the live URL with Playwright (`e2e-live/`), because the build sandbox cannot reach `github.io` directly.
+3. **Pinned tool versions.** Vite 7, React 19.2, React Router 7, TypeScript 5.9, ESLint 9, Vitest 4.1.11 (4.1.11 rather than 3.x because 3.x pulls a tinypool with a critical advisory; dev-only), Playwright 1.56.1 (matches the preinstalled Chromium). Newer majors exist (Vite 8, TS 7) but typescript-eslint does not support TS 7 yet.
+4. **"Plus one desktop run"** is implemented as a second Playwright project (1280×800) that runs every test tagged `@desktop`.
+5. **Design-token lint.** `scripts/check-design-tokens.mjs` runs inside `npm run lint` and rejects raw colors, lengths, font families, and font weights in any CSS outside `tokens.css`, and in feature TypeScript.
 
 ## Decisions on ambiguities
 _None yet._
